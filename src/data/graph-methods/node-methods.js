@@ -3,7 +3,6 @@ const getAllNodes = input => {
         return {
             id: player.bref_id,
             label: player.name.replace('*', ''),
-            // id: index
         }
     });
 };
