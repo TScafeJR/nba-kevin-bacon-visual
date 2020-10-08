@@ -1,22 +1,18 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
-import Graph from "react-graph-vis";
+import Graph from 'react-graph-vis';
+
+const CONSTANTS = require('../data/constants');
 
 class NetworkGraph extends Component {
     render() {
         const graph = {
-            nodes: [
-                { id: 1, label: "Node 1", title: "node 1 tootip text" },
-                { id: 2, label: "Node 2", title: "node 2 tootip text" },
-                { id: 3, label: "Node 3", title: "node 3 tootip text" },
-                { id: 4, label: "Node 4", title: "node 4 tootip text" },
-                { id: 5, label: "Node 5", title: "node 5 tootip text" }
-            ],
+            nodes: CONSTANTS.NODES,
             edges: [
-                { from: 1, to: 2 },
-                { from: 1, to: 3 },
-                { from: 2, to: 4 },
-                { from: 2, to: 5 }
+                { from: 'abdelal01', to: 'abdulza01' },
+                { from: 'abdulka01', to: 'abdelal01' },
+                { from: 'abdulza01', to: 'abdulka01' },
+                // { from: 2, to: 5 }
             ]
         };
 
@@ -25,9 +21,9 @@ class NetworkGraph extends Component {
                 hierarchical: false
             },
             edges: {
-                color: "#000000"
+                color: '#000000'
             },
-            height: "500px"
+            height: '500px'
         };
 
         const events = {
@@ -37,7 +33,7 @@ class NetworkGraph extends Component {
         };
 
         return (
-            <div className="graph">
+            <div className='graph'>
                 <Graph
                     graph={graph}
                     options={options}
