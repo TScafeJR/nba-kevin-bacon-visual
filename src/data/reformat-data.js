@@ -1,4 +1,5 @@
 const playerData = require('./output.json')
+const playerArr = require('./player-data2.json');
 
 const createSetOfSeasons = player => {
     const teams = player.teams.map(team => {
@@ -41,4 +42,19 @@ const playersWithTeammates = formattedPlayers
     .map(player => ({...player, teammates: findTeammates(player, formattedPlayers)}))
     .map(player => ({...player, teams: Array.from(player.teams)}));
 
-console.log(JSON.stringify(playersWithTeammates))
+const playersObj = playersWithTeammates.reduce((obj, individualPlayer) => {
+    obj[individualPlayer.bref_id] = individualPlayer
+    return obj
+}, {})
+
+const addHOFStatus = playerInfo => {
+    return playerInfo.map(player => ({...player, isHOFer: player.name.includes('*')}))
+}
+
+const filterSelfOutTeammatesArr = players => {
+    return players.map(player => {
+        return ({...player, teammates: player.teammates.filter(filterPlayer => filterPlayer !== player.bref_id)})
+    })
+}
+
+console.log(JSON.stringify(filterSelfOutTeammatesArr(playerArr)))

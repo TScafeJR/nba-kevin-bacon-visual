@@ -13,7 +13,11 @@
     "dev:client": "webpack --mode development",
     "dev:frontend": "(npm run dev:client && npm run dev:webpack-server)",
     "dev:webpack-server": "webpack-dev-server --mode development",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint './*.js' './src/**/*.js'",
+    "lint:fix": "eslint --fix './*.js' './src/**/*.js'",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "author": "Tyrone Scafe",
   "license": "ISC",
@@ -35,5 +39,12 @@
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
+  },
+  "devDependencies": {
+    "@storybook/addon-actions": "^6.0.26",
+    "@storybook/addon-essentials": "^6.0.26",
+    "@storybook/addon-links": "^6.0.26",
+    "@storybook/react": "^6.0.26",
+    "react-is": "^16.13.1"
   }
 }

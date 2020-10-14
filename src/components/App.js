@@ -3,9 +3,10 @@ import { hot, setConfig } from 'react-hot-loader';
 import Header from './static/Header';
 import Footer from './static/Footer';
 import NetworkGraph from './NetworkGraph';
-import Searchbar from './Searchbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../style/App.css';
+const CONSTANTS = require('../data/constants');
+
 
 setConfig({
     showReactDomPatchNotification: false
@@ -23,7 +24,10 @@ class App extends Component {
                 />
                 <link rel="stylesheet" href="https://unpkg.com/@coreui/coreui/dist/css/coreui.min.css"/>
                 <Header />
-                <NetworkGraph />
+                <NetworkGraph
+                    startingEdges={CONSTANTS.EDGES}
+                    startingNodes={CONSTANTS.NODES}
+                />
                 <Footer />
             </div>
         );

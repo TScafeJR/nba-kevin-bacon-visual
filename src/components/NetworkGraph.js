@@ -2,33 +2,44 @@ import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 import Graph from 'react-graph-vis';
 
-const CONSTANTS = require('../data/constants');
 
 class NetworkGraph extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            graphNodes: this.props.startingNodes,
+            graphEdges: this.props.startingEdges
+
+        }
+    }
+
     render() {
         const graph = {
-            nodes: CONSTANTS.NODES,
-            edges: [
-                { from: 'abdelal01', to: 'abdulza01' },
-                { from: 'abdulka01', to: 'abdelal01' },
-                { from: 'abdulza01', to: 'abdulka01' },
-                // { from: 2, to: 5 }
-            ]
+            nodes: this.state.graphNodes,
+            edges: this.state.graphEdges
         };
 
         const options = {
             layout: {
-                hierarchical: false
+                hierarchical: {
+                    enabled: false,
+                    nodeSpacing: 400,
+                    treeSpacing: 800,
+                    shakeTowards: 'roots'
+                }
+            },
+            nodes: {
+                // shape: 'database'
             },
             edges: {
                 color: '#000000'
             },
-            height: '500px'
+            height: '700px'
         };
 
         const events = {
             select: function(event) {
-                var { nodes, edges } = event;
+                const { nodes, edges } = event;
             }
         };
 
