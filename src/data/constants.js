@@ -7,6 +7,7 @@ const STARTING_INFO = NodeMethods.constructStartingInfo(HOF_PLAYERS);
 const STARTING_EDGES = NodeMethods.constructEdgesFromStartingInfo(STARTING_INFO);
 
 module.exports = {
+    playerData,
     NODES: STARTING_INFO.nodes,
     EDGES: STARTING_EDGES
 };

@@ -1,0 +1,16 @@
+.footer {
+    padding: 10px;
+    margin-top: 25px;
+}
+
+img {
+    width: 60px;
+}
+
+.footer-div {
+    text-align:center;
+}
+
+span a {
+    display: inline-block;
+}

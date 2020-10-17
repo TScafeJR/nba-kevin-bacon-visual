@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 import Graph from 'react-graph-vis';
-
+import '../style/NetworkGraph.css';
 
 class NetworkGraph extends Component {
     constructor(props) {
@@ -25,16 +25,23 @@ class NetworkGraph extends Component {
                     enabled: false,
                     nodeSpacing: 400,
                     treeSpacing: 800,
-                    shakeTowards: 'roots'
                 }
             },
             nodes: {
                 // shape: 'database'
             },
             edges: {
-                color: '#000000'
+                color: '#000000',
+                arrows: {
+                    to: {
+                        enabled: false
+                    },
+                    from: {
+                        enabled: false
+                    },
+                }
             },
-            height: '700px'
+            height: '600px'
         };
 
         const events = {

@@ -1,6 +1,6 @@
 MVP
-- Search for a particular player's network
-- Add story book tests so that I can view components in isolation 
+- [ ] Search for a particular player's network
+- [x] Add story book tests so that I can view components in isolation 
 
 Features
 - [ ] Show Graph between two players
