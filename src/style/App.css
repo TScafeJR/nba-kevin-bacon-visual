@@ -1,7 +1,7 @@
 #root {
     margin: 1rem;
     font-family: Arial, Helvetica, sans-serif;
-    padding: 0 10%;
+    padding: 0 2%;
 }
 
 h1 {
@@ -21,14 +21,4 @@ h2 {
 .centered {
     display: block;
     margin: 0 auto;
-}
-
-.submit {
-    text-align:center;
-    /*margin: 0 auto;*/
-    /*display: block;*/
-}
-
-.react-bootstrap-table table {
-    table-layout: auto;
 }

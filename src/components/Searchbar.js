@@ -4,9 +4,10 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
-import '../style/Searchbar.css';
-import { playerData } from '../data/constants';
 import ListGroup from 'react-bootstrap/ListGroup';
+import '../style/Searchbar.css';
+
+import { playerData } from '../data/constants';
 
 const PLAYER_NAMES = playerData.map(player => player.name.replace('*', ''));
 
@@ -15,7 +16,8 @@ class Searchbar extends Component {
         super(props)
         this.state = {
             suggestions: [],
-            text: ''
+            text: '',
+            searchType: 'Search By Player'
         }
 
         this.onTextChange = this.onTextChange.bind(this);
@@ -35,8 +37,6 @@ class Searchbar extends Component {
             suggestions,
             text: value
         }))
-
-        console.log(this.state)
     }
 
     selectedText(value) {
@@ -52,8 +52,15 @@ class Searchbar extends Component {
             return null;
         }
         return (
-            <ListGroup>
-                {suggestions.map((item, index) => (<ListGroup.Item key={index} onClick={() => this.selectedText(item)}>{item}</ListGroup.Item>))}
+            <ListGroup className="auto-complete-list">
+                {suggestions.map((item, index) => {
+                    return (<ListGroup.Item
+                        key={index}
+                        action
+                        variant="light"
+                        onClick={() => this.selectedText(item)}
+                    >{item}</ListGroup.Item>)
+                })}
             </ListGroup>
         );
     }
@@ -72,14 +79,12 @@ class Searchbar extends Component {
                     <DropdownButton
                         as={InputGroup.Append}
                         variant="outline-secondary"
-                        title="Search Type"
+                        title={this.state.searchType}
                         id="input-group-dropdown-2"
                     >
-                        <Dropdown.Item href="#">Action</Dropdown.Item>
-                        <Dropdown.Item href="#">Another action</Dropdown.Item>
-                        <Dropdown.Item href="#">Something else here</Dropdown.Item>
-                        <Dropdown.Divider />
-                        <Dropdown.Item href="#">Separated link</Dropdown.Item>
+                        <Dropdown.Item href="#">Search by Player</Dropdown.Item>
+                        <Dropdown.Item href="#">Network between Two Players</Dropdown.Item>
+                        <Dropdown.Item href="#">Search by Season Year</Dropdown.Item>
                     </DropdownButton>
                 </InputGroup>
                 {this.renderSuggestions()}
