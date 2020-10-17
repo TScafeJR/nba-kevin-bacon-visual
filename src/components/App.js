@@ -6,6 +6,7 @@ import NetworkGraph from './NetworkGraph';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../style/App.css';
 const CONSTANTS = require('../data/constants');
+import 'font-awesome/css/font-awesome.min.css';
 
 
 setConfig({
@@ -24,6 +25,7 @@ class App extends Component {
                     crossOrigin="anonymous"
                 />
                 <link rel="stylesheet" href="https://unpkg.com/@coreui/coreui/dist/css/coreui.min.css"/>
+                <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
                 <Header />
                 <NetworkGraph
                     startingEdges={CONSTANTS.EDGES}

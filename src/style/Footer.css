@@ -13,4 +13,19 @@ img {
 
 span a {
     display: inline-block;
+    margin: 0 auto;
+}
+
+.centered {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.social-link {
+    color: black
+}
+
+.social-link:hover {
+    color: white;
 }

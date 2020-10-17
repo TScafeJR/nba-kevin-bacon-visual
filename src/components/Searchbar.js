@@ -13,12 +13,12 @@ const PLAYER_NAMES = playerData.map(player => player.name.replace('*', ''));
 
 class Searchbar extends Component {
     constructor(props){
-        super(props)
+        super(props);
         this.state = {
             suggestions: [],
             text: '',
             searchType: 'Search By Player'
-        }
+        };
 
         this.onTextChange = this.onTextChange.bind(this);
         this.selectedText = this.selectedText.bind(this);
@@ -26,40 +26,40 @@ class Searchbar extends Component {
     }
 
     onTextChange(e){
-        const value = e.target.value;
+        const { value } = e.target;
         let suggestions = [];
         if(value.length > 0){
             const regex = new RegExp(`^${value}`, 'i');
-            suggestions = PLAYER_NAMES.sort().filter(v => regex.test(v))
+            suggestions = PLAYER_NAMES.sort().filter(v => regex.test(v));
         }
 
         this.setState(() => ({
             suggestions,
             text: value
-        }))
+        }));
     }
 
     selectedText(value) {
         this.setState(() => ({
             text: value,
-            suggestions: [],
-        }))
+            suggestions: []
+        }));
     }
 
     renderSuggestions() {
-        let { suggestions } = this.state;
+        const { suggestions } = this.state;
         if(suggestions.length === 0){
             return null;
         }
         return (
             <ListGroup className="auto-complete-list">
                 {suggestions.map((item, index) => {
-                    return (<ListGroup.Item
+                    return <ListGroup.Item
                         key={index}
                         action
                         variant="light"
                         onClick={() => this.selectedText(item)}
-                    >{item}</ListGroup.Item>)
+                    >{item}</ListGroup.Item>;
                 })}
             </ListGroup>
         );

@@ -10,7 +10,7 @@ class NetworkGraph extends Component {
             graphNodes: this.props.startingNodes,
             graphEdges: this.props.startingEdges
 
-        }
+        };
     }
 
     render() {
@@ -24,7 +24,7 @@ class NetworkGraph extends Component {
                 hierarchical: {
                     enabled: false,
                     nodeSpacing: 400,
-                    treeSpacing: 800,
+                    treeSpacing: 800
                 }
             },
             nodes: {
@@ -38,7 +38,7 @@ class NetworkGraph extends Component {
                     },
                     from: {
                         enabled: false
-                    },
+                    }
                 }
             },
             height: '600px'

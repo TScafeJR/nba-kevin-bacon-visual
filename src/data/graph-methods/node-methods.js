@@ -20,8 +20,8 @@ const constructStartingInfo = hofPlayers => {
         nodes: allPlayers,
         teammates: playersAsNodes,
         centralPlayer: randomHOFerFormatted[0]
-    }
-}
+    };
+};
 
 const constructEdgesFromStartingInfo = startingInfo => {
     const uniqueTeammates = Array.from(new Set(startingInfo.teammates));
@@ -29,9 +29,9 @@ const constructEdgesFromStartingInfo = startingInfo => {
         return {
             from: startingInfo.centralPlayer.id,
             to: playerObj.id
-        }
-    })
-}
+        };
+    });
+};
 
 module.exports = {
     formatPlayerNodes,
