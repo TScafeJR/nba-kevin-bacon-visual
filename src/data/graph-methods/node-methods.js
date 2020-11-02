@@ -1,4 +1,4 @@
-const playersObj = require('../players-obj.json');
+const { getTeammatesFromPlayer } = require('./search-methods/player-methods');
 
 const formatPlayerNodes = input => {
     return input.map(player => {
@@ -9,17 +9,27 @@ const formatPlayerNodes = input => {
     });
 };
 
-const constructStartingInfo = hofPlayers => {
-    const RANDOM_HOF_PLAYER = hofPlayers[Math.floor(Math.random() * hofPlayers.length)];
-    const teammates = RANDOM_HOF_PLAYER.teammates.map(playerId => playersObj[playerId]);
+const constructNodes = (player, teammates) => {
     const playersAsNodes = formatPlayerNodes(teammates);
-    const randomHOFerFormatted = formatPlayerNodes([RANDOM_HOF_PLAYER]);
-    const allPlayers = [...playersAsNodes, ...randomHOFerFormatted];
+    const playerFormatted = formatPlayerNodes([player]);
+    const allPlayers = [...playersAsNodes, ...playerFormatted];
 
     return {
         nodes: allPlayers,
         teammates: playersAsNodes,
-        centralPlayer: randomHOFerFormatted[0]
+        centralPlayer: playerFormatted[0]
+    };
+};
+
+const constructStartingInfo = hofPlayers => {
+    const RANDOM_HOF_PLAYER = hofPlayers[Math.floor(Math.random() * hofPlayers.length)];
+    const playersTeammates = getTeammatesFromPlayer(RANDOM_HOF_PLAYER);
+    const { nodes, centralPlayer, teammates } = constructNodes(RANDOM_HOF_PLAYER, playersTeammates);
+
+    return {
+        nodes,
+        teammates,
+        centralPlayer
     };
 };
 
@@ -36,5 +46,6 @@ const constructEdgesFromStartingInfo = startingInfo => {
 module.exports = {
     formatPlayerNodes,
     constructStartingInfo,
-    constructEdgesFromStartingInfo
+    constructEdgesFromStartingInfo,
+    constructNodes
 };

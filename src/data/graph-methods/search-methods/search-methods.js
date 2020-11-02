@@ -1,9 +1,8 @@
-const playerData = require('../players-obj.json');
+const playerData = require('../../players-obj.json');
 
 const searchByPlayer = playerName => [];
 
 const searchBySeason = seasonYear => [];
-
 
 // const stepThroughNodes = (currPlayer, visitedNodes, nodeTrackerObj, playerObj, currDistance) => {
 //     const currPlayerTeammates = currPlayer.teammates
@@ -21,6 +20,10 @@ const searchBySeason = seasonYear => [];
 //     }
 // }
 
+const grabPaths = (playerId, arr) => {
+    return arr.filter(key => key.split('.').slice(-1)[0] === playerId);
+};
+
 const populateTrackerLevel = (trackerObj, playerObj, currDepth, visitedNodes) => {
     const relevantKeys = Object.keys(trackerObj).filter(key => key.split('.').length === currDepth);
     relevantKeys.forEach(key => {
@@ -37,19 +40,16 @@ const populateTrackerLevel = (trackerObj, playerObj, currDepth, visitedNodes) =>
     return trackerObj;
 };
 
-const grabPaths = (playerId, arr) => {
-    return arr.filter(key => key.split('.').slice(-1) === playerId);
-};
-
 // Uses Dijkstra’s Unidirectional Algorithm to find the shortest path between any two nodes.
-// Todo: Change this to a bidirectional Dijkstra Search, the Unidirectional search time
-// increases exponentionally on depths >= 3.
+// I need to change this to a bidirectional Dijkstra Search, the Unidirectional search time
+// increases exponentionally on depths >= 3. This won't be feasible for a responsive web app
 const findShortestPathBetweenTwoPlayers = (player1Id, player2Id, playerObj) => {
     const playerIdArr = Object.keys(playerObj);
     const edgesArr = [player1Id];
     let currDistance = 1;
     const visitedNodes = new Set();
     let playerQueue = playerObj[player1Id].teammates.slice();
+
     let playerTracker = {
         [player1Id]: { depth: 1 }
     };
@@ -62,12 +62,11 @@ const findShortestPathBetweenTwoPlayers = (player1Id, player2Id, playerObj) => {
         return obj;
     }, {});
 
-    // const nodeTracker = {}
-
     nodeTracker[player1Id].distance = 0;
 
     while (nodeTracker[player2Id].distance === Infinity) {
         const nodesToVisit = playerQueue.filter(teammate => !visitedNodes.has(teammate));
+
         playerTracker = populateTrackerLevel(playerTracker, playerData, currDistance, visitedNodes);
 
         nodesToVisit.forEach(playerId => {
@@ -83,8 +82,10 @@ const findShortestPathBetweenTwoPlayers = (player1Id, player2Id, playerObj) => {
     return nodeTracker;
 };
 
-const trackerObj = {
-    johnsma02: { depth: 1 }
-};
+// console.log(findShortestPathBetweenTwoPlayers('johnsma02', 'onealsh01', playerData));
 
-console.log(findShortestPathBetweenTwoPlayers('johnsma02', 'onealsh01', playerData));
+module.exports = {
+    grabPaths,
+    findShortestPathBetweenTwoPlayers,
+    populateTrackerLevel
+};

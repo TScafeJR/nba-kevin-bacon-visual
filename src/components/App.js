@@ -14,6 +14,22 @@ setConfig({
 });
 
 class App extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            text: CONSTANTS.STARTING_INFO.centralPlayer.label
+        };
+
+        this.handleSearchChange = this.handleSearchChange.bind(this);
+    }
+
+    handleSearchChange(e){
+        const { value } = e.target;
+        this.setState(() => ({
+            text: value
+        }));
+    }
+
     render() {
         return (
             <div className="app-container">
@@ -26,10 +42,16 @@ class App extends Component {
                 />
                 <link rel="stylesheet" href="https://unpkg.com/@coreui/coreui/dist/css/coreui.min.css"/>
                 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-                <Header />
+                <Header
+                    startingInfo={CONSTANTS.STARTING_INFO}
+                    displayPlayer={this.state.text}
+                    handleSearchChange={this.handleSearchChange.bind(this)}
+                />
                 <NetworkGraph
                     startingEdges={CONSTANTS.EDGES}
                     startingNodes={CONSTANTS.NODES}
+                    displayPlayer={this.state.text}
+                    playerData={CONSTANTS.playerData}
                 />
                 <Footer />
             </div>

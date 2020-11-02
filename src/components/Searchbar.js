@@ -16,13 +16,14 @@ class Searchbar extends Component {
         super(props);
         this.state = {
             suggestions: [],
-            text: '',
+            text: this.props.startingInfo.centralPlayer.label,
             searchType: 'Search By Player'
         };
 
         this.onTextChange = this.onTextChange.bind(this);
         this.selectedText = this.selectedText.bind(this);
         this.renderSuggestions = this.renderSuggestions.bind(this);
+        // this.logChange = this.logChange.bind(this);
     }
 
     onTextChange(e){
@@ -37,7 +38,14 @@ class Searchbar extends Component {
             suggestions,
             text: value
         }));
+
+        this.props.handleSearchChange(e);
     }
+
+    // logChange(e){
+    //     console.log('inside', e)
+    //     const { value } = e.target;
+    // }
 
     selectedText(value) {
         this.setState(() => ({
@@ -80,6 +88,7 @@ class Searchbar extends Component {
                         as={InputGroup.Append}
                         variant="outline-secondary"
                         title={this.state.searchType}
+                        onClick={this.logChange}
                         id="input-group-dropdown-2"
                     >
                         <Dropdown.Item href="#">Search by Player</Dropdown.Item>

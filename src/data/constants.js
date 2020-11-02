@@ -9,5 +9,6 @@ const STARTING_EDGES = NodeMethods.constructEdgesFromStartingInfo(STARTING_INFO)
 module.exports = {
     playerData,
     NODES: STARTING_INFO.nodes,
-    EDGES: STARTING_EDGES
+    EDGES: STARTING_EDGES,
+    STARTING_INFO
 };

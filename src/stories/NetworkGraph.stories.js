@@ -9,6 +9,7 @@ export default {
 const Template = args => <NetworkGraph {...args}/>;
 
 export const Primary = Template.bind({});
+
 Primary.args = {
     startingEdges: [
         { to: 'first', from: 'second' },
