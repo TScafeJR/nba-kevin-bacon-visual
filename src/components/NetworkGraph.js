@@ -24,11 +24,8 @@ class NetworkGraph extends Component {
             const currPlayerId = findPlayerIdFromName(this.state.currentPlayer);
             const combinedEdgeArr = [...this.state.graphEdges, ...edges];
 
-            console.log('combined edges', combinedEdgeArr);
-
             const filteredNodes = filterPlayerNodesArr(this.state.graphNodes, nodes);
             const filteredEdges = filterPlayerEdgesArr(currPlayerId, combinedEdgeArr);
-
 
             this.setState({
                 graphNodes: filteredNodes,

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
-import Searchbar from '../Searchbar';
+import Searchbar from '../../Searchbar';
 import NavigationBar from './NavigationBar';
 
 class Header extends Component {

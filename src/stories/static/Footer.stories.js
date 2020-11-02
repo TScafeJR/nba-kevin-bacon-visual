@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Footer from '../../components/static/Footer';
+import Footer from '../../components/presentational/static/Footer';
 import '../../style/Footer.css';
 
 export default {

@@ -10,3 +10,13 @@ export default {
 const Template = args => <Searchbar {...args}/>;
 
 export const BasicSearch = Template.bind({});
+
+BasicSearch.args = {
+    startingInfo: {
+        centralPlayer: {
+            name: 'Tyrone Scafe',
+            id: 'tscafe01',
+            label: 'Tyrone Scafe',
+        }
+    }
+};

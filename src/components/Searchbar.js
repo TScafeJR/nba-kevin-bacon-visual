@@ -23,7 +23,6 @@ class Searchbar extends Component {
         this.onTextChange = this.onTextChange.bind(this);
         this.selectedText = this.selectedText.bind(this);
         this.renderSuggestions = this.renderSuggestions.bind(this);
-        // this.logChange = this.logChange.bind(this);
     }
 
     onTextChange(e){
@@ -41,11 +40,6 @@ class Searchbar extends Component {
 
         this.props.handleSearchChange(e);
     }
-
-    // logChange(e){
-    //     console.log('inside', e)
-    //     const { value } = e.target;
-    // }
 
     selectedText(value) {
         this.setState(() => ({

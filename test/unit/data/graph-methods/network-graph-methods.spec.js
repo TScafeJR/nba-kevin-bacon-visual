@@ -48,13 +48,13 @@ describe('Network Graph Methods', () => {
         it('has every element with the current player id', () => {
             const playerId = 'tscafe01';
             const edgeArr = [
-                {to: 'asantos01', from: 'tscafe01'},
-                {to: 'asantos01', from: 'dadebayo01'},
-                {to: 'tscafe01', from: 'iashmore01'},
-                {to: 'bpolicard01', from: 'tscafe01'},
-                {to: 'bpolicard01', from: 'dadebayo'},
-                {to: 'bpolicard01', from: 'asantos01'},
-                {to: 'tscafe02', from: 'asantos01'}
+                { to: 'asantos01', from: 'tscafe01' },
+                { to: 'asantos01', from: 'dadebayo01' },
+                { to: 'tscafe01', from: 'iashmore01' },
+                { to: 'bpolicard01', from: 'tscafe01' },
+                { to: 'bpolicard01', from: 'dadebayo' },
+                { to: 'bpolicard01', from: 'asantos01' },
+                { to: 'tscafe02', from: 'asantos01' }
             ];
 
             const finalArr = filterPlayerEdgesArr(playerId, edgeArr);

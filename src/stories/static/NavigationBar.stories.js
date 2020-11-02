@@ -1,5 +1,5 @@
 import React from 'react';
-import NavigationBar from '../../components/static/NavigationBar';
+import NavigationBar from '../../components/presentational/static/NavigationBar';
 
 export default {
     title: 'Static/NavigationBar',

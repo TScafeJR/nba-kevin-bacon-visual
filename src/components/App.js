@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { hot, setConfig } from 'react-hot-loader';
-import Header from './static/Header';
-import Footer from './static/Footer';
+import Header from './presentational/static/Header';
+import Footer from './presentational/static/Footer';
 import NetworkGraph from './NetworkGraph';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../style/App.css';
@@ -33,7 +33,6 @@ class App extends Component {
     render() {
         return (
             <div className="app-container">
-                <link rel="shortcut icon" href={'/app-icon.png'}/>
                 <link
                     rel="stylesheet"
                     href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"

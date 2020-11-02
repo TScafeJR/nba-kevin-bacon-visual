@@ -36,10 +36,10 @@ const filterPlayerEdgesArr = (centralPlayer, edgesComboArr) => {
         .filter(element => {
             return (
                 (element.to === centralPlayer || element.from === centralPlayer) &&
-                (element.to !== element.from)
+                element.to !== element.from
             );
         });
-}
+};
 
 module.exports = {
     getNodesAndEdgesFromPlayerName,

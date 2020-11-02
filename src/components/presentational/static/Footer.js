@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 import FontAwesome from 'react-fontawesome';
 
-import '../../style/Footer.css';
+import '../../../style/Footer.css';
 
 class Footer extends Component {
     render() {

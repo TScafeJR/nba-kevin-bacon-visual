@@ -54,10 +54,10 @@
   },
   "devDependencies": {
     "@dukes-wine/eslint-config-dukes-wine": "^1.3.1",
-    "@storybook/addon-actions": "^6.0.27",
-    "@storybook/addon-essentials": "^6.0.27",
-    "@storybook/addon-links": "^6.0.27",
-    "@storybook/react": "^6.0.27",
+    "@storybook/addon-actions": "^6.0.28",
+    "@storybook/addon-essentials": "^6.0.28",
+    "@storybook/addon-links": "^6.0.28",
+    "@storybook/react": "^6.0.28",
     "chai": "^4.2.0",
     "mocha": "^8.2.0",
     "react-is": "^16.13.1"

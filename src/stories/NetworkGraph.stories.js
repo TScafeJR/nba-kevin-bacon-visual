@@ -22,5 +22,9 @@ Primary.args = {
         { id: 'second', label: 'Second Node' },
         { id: 'third', label: 'Third Node' },
         { id: 'fourth', label: 'Fourth Node' }
+    ],
+    displayPlayer: 'tscafe',
+    playerData: [
+        {name: 'Tyrone Scafe', id: 'tscafe'}
     ]
 };
