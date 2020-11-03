@@ -1,3 +1,15 @@
 .search-bar {
     padding: 10px 0;
 }
+
+.form-control {
+    color: black !important;
+}
+
+.dropdown {
+    color: black !important;
+}
+
+button.dropdown-toggle {
+    color: black !important;
+}

@@ -23,6 +23,7 @@ class Searchbar extends Component {
         this.onTextChange = this.onTextChange.bind(this);
         this.selectedText = this.selectedText.bind(this);
         this.renderSuggestions = this.renderSuggestions.bind(this);
+        this.handleSearchSelectionChange = this.handleSearchSelectionChange.bind(this);
     }
 
     onTextChange(e){
@@ -39,6 +40,18 @@ class Searchbar extends Component {
         }));
 
         this.props.handleSearchChange(e);
+    }
+
+
+    handleSearchSelectionChange(e){
+        // const { value } = e.target;
+        console.log(e)
+        //
+        // this.setState(() => ({
+        //     searchType: value
+        // }));
+
+        console.log(this.state);
     }
 
     selectedText(value) {
@@ -61,11 +74,14 @@ class Searchbar extends Component {
                         action
                         variant="light"
                         onClick={() => this.selectedText(item)}
+                        onSelect={() => this.selectedText(item)}
                     >{item}</ListGroup.Item>;
                 })}
             </ListGroup>
         );
     }
+
+
     render() {
         return (
             <div className="search-bar">
@@ -82,12 +98,12 @@ class Searchbar extends Component {
                         as={InputGroup.Append}
                         variant="outline-secondary"
                         title={this.state.searchType}
-                        onClick={this.logChange}
-                        id="input-group-dropdown-2"
+                        id="input-group-dropdown-2 dropdown-search"
+                        onSelect={this.handleSearchSelectionChange}
                     >
-                        <Dropdown.Item href="#">Search by Player</Dropdown.Item>
-                        <Dropdown.Item href="#">Network between Two Players</Dropdown.Item>
-                        <Dropdown.Item href="#">Search by Season Year</Dropdown.Item>
+                        <Dropdown.Item href="#a">Search by Player</Dropdown.Item>
+                        <Dropdown.Item href="#b">Network between Two Players</Dropdown.Item>
+                        <Dropdown.Item href="#c">Search by Season Year</Dropdown.Item>
                     </DropdownButton>
                 </InputGroup>
                 {this.renderSuggestions()}

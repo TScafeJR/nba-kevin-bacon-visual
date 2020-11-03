@@ -8,5 +8,6 @@ I'm building a graphical representation of NBA players and their teammates becau
  ![This is an rendering of the application](images/example-app.png)
  
  ## How to contribute
- You can get an idea of what features and extensions I'm looking to make on this project by going to the `TODO.md` file.
+ You can get an idea of what features and extensions I'm looking to make on this project by going to the [/TODO.md
+ ](/TODO.md) file.
   Fork this repo and make a PR.
