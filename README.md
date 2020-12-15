@@ -9,5 +9,5 @@ I'm building a graphical representation of NBA players and their teammates becau
  
  ## How to contribute
  You can get an idea of what features and extensions I'm looking to make on this project by going to the [/TODO.md
- ](/TODO.md) file.
-  Fork this repo and make a PR.
+ ](/TODO.md) directory.
+  Fork this repo and make a PR, or just make an issue.
