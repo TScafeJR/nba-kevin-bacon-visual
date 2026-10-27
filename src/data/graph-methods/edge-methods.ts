@@ -1,10 +1,11 @@
-const playerData = require('../output.json');
+import playerData from '../output.json';
+import { RawPlayer } from '../../types';
 
-const getAllEdges = input => {
+const getAllEdges = (input: RawPlayer[]) => {
     return input.map(player => player.name);
 };
 
-const formatEdgesOfPlayer = player => {
+const formatEdgesOfPlayer = (player: RawPlayer) => {
     return player.teammates['py/set'].map(teammate => {
         return {
             from: player.bref_id,
@@ -13,6 +14,6 @@ const formatEdgesOfPlayer = player => {
     });
 };
 
-const calcSize = player => {
+const calcSize = (player: RawPlayer) => {
     return player.teammates['py/set'].length;
 };

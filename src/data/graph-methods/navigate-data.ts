@@ -1,4 +1,4 @@
-const playerData = require('../player-data.json');
+import playerData from '../player-data.json';
 
 const lengths = playerData.map(player => player.teams.length);
 

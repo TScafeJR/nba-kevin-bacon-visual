@@ -11,5 +11,11 @@ module.exports = {
         "ecmaFeatures": {
             "jsx": true
         }
-    }
+    },
+    'overrides': [
+        {
+            'files': ['*.ts', '*.tsx'],
+            'parser': '@typescript-eslint/parser'
+        }
+    ]
 };

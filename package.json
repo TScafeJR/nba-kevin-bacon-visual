@@ -14,11 +14,12 @@
     "dev:client": "webpack --mode development",
     "dev:frontend": "(npm run dev:client && npm run dev:webpack-server)",
     "dev:webpack-server": "webpack-dev-server --mode development",
-    "lint": "eslint './*.js' './src/**/*.js' './test/**/*.js'",
-    "lint:fix": "eslint --fix './*.js' './src/**/*.js' './test/**/*.js'",
+    "lint": "eslint './*.js' './src/**/*.{ts,tsx}' './test/**/*.ts'",
+    "lint:fix": "eslint --fix './*.js' './src/**/*.{ts,tsx}' './test/**/*.ts'",
     "storybook": "start-storybook -p 6006",
     "test": "npm run test:unit",
-    "test:unit": "NODE_ENV=test mocha --recursive --timeout 10000 'test/unit/**/*.spec.js'"
+    "test:unit": "NODE_ENV=test mocha --require ts-node/register --extension ts --recursive --timeout 10000 'test/unit/**/*.spec.ts'",
+    "typecheck": "tsc"
   },
   "author": "Tyrone Scafe",
   "license": "ISC",
@@ -28,6 +29,7 @@
     "@babel/plugin-syntax-class-properties": "^7.12.1",
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-react": "^7.10.4",
+    "@babel/preset-typescript": "^7.29.7",
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-brands-svg-icons": "^5.15.1",
     "@fortawesome/free-regular-svg-icons": "^5.15.1",
@@ -58,8 +60,17 @@
     "@storybook/addon-essentials": "^6.0.28",
     "@storybook/addon-links": "^6.0.28",
     "@storybook/react": "^6.0.28",
+    "@types/chai": "^4.3.20",
+    "@types/mocha": "^8.2.3",
+    "@types/react": "^16.14.70",
+    "@types/react-dom": "^16.9.25",
+    "@types/react-fontawesome": "^1.6.8",
+    "@types/webpack-env": "^1.18.8",
+    "@typescript-eslint/parser": "^4.33.0",
     "chai": "^4.2.0",
     "mocha": "^8.2.0",
-    "react-is": "^16.13.1"
+    "react-is": "^16.13.1",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.9.3"
   }
 }

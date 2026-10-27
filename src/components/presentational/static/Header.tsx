@@ -2,9 +2,16 @@ import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 import Searchbar from '../../Searchbar';
 import NavigationBar from './NavigationBar';
+import { StartingInfo } from '../../../types';
 
-class Header extends Component {
-    constructor(props){
+interface HeaderProps {
+    startingInfo: StartingInfo;
+    displayPlayer: string;
+    handleSearchChange: (playerName: string) => void;
+}
+
+class Header extends Component<HeaderProps> {
+    constructor(props: HeaderProps){
         super(props);
     }
 

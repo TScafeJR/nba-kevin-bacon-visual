@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { ComponentProps } from 'react';
+import { Meta, Story } from '@storybook/react/types-6-0';
 import NetworkGraph from '../components/NetworkGraph';
 
 export default {
     title: 'Components/NetworkGraph',
     component: NetworkGraph
-};
+} as Meta;
 
-const Template = args => <NetworkGraph {...args}/>;
+const Template: Story<ComponentProps<typeof NetworkGraph>> = args => <NetworkGraph {...args}/>;
 
 export const Primary = Template.bind({});
 
@@ -25,6 +26,6 @@ Primary.args = {
     ],
     displayPlayer: 'tscafe',
     playerData: [
-        {name: 'Tyrone Scafe', id: 'tscafe'}
+        { name: 'Tyrone Scafe' }
     ]
 };

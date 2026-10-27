@@ -1,7 +1,7 @@
-const { expect } = require('chai');
+import { expect } from 'chai';
 
-const { findPlayerIdFromName } = require('../../../../../src/data/graph-methods/search-methods/player-methods');
-const { mockPlayerArr } = require('./mock-data');
+import { findPlayerIdFromName } from '../../../../../src/data/graph-methods/search-methods/player-methods';
+import { mockPlayerArr } from './mock-data';
 
 describe('Player Methods', () => {
     describe('findPlayerIdFromName', () => {

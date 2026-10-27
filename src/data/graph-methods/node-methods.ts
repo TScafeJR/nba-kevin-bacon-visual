@@ -1,6 +1,7 @@
-const { getTeammatesFromPlayer } = require('./search-methods/player-methods');
+import { getTeammatesFromPlayer } from './search-methods/player-methods';
+import { Player, PlayerEdge, PlayerNode, StartingInfo } from '../../types';
 
-const formatPlayerNodes = input => {
+const formatPlayerNodes = (input: Player[]): PlayerNode[] => {
     return input.map(player => {
         return {
             id: player.bref_id,
@@ -9,7 +10,7 @@ const formatPlayerNodes = input => {
     });
 };
 
-const constructNodes = (player, teammates) => {
+const constructNodes = (player: Player, teammates: Player[]): StartingInfo => {
     const playersAsNodes = formatPlayerNodes(teammates);
     const playerFormatted = formatPlayerNodes([player]);
     const allPlayers = [...playersAsNodes, ...playerFormatted];
@@ -21,7 +22,7 @@ const constructNodes = (player, teammates) => {
     };
 };
 
-const constructStartingInfo = hofPlayers => {
+const constructStartingInfo = (hofPlayers: Player[]): StartingInfo => {
     const RANDOM_HOF_PLAYER = hofPlayers[Math.floor(Math.random() * hofPlayers.length)];
     const playersTeammates = getTeammatesFromPlayer(RANDOM_HOF_PLAYER);
     const { nodes, centralPlayer, teammates } = constructNodes(RANDOM_HOF_PLAYER, playersTeammates);
@@ -33,7 +34,7 @@ const constructStartingInfo = hofPlayers => {
     };
 };
 
-const constructEdgesFromStartingInfo = startingInfo => {
+const constructEdgesFromStartingInfo = (startingInfo: StartingInfo): PlayerEdge[] => {
     const uniqueTeammates = Array.from(new Set(startingInfo.teammates));
     return uniqueTeammates.map(playerObj => {
         return {
@@ -43,7 +44,7 @@ const constructEdgesFromStartingInfo = startingInfo => {
     });
 };
 
-module.exports = {
+export {
     formatPlayerNodes,
     constructStartingInfo,
     constructEdgesFromStartingInfo,

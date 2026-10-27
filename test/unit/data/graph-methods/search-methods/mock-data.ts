@@ -1,4 +1,6 @@
-const mockPlayer = {
+import { Player } from '../../../../../src/types';
+
+const mockPlayer: Player = {
     career_start: '1990',
     career_end: '2002',
     position: 'F-G',
@@ -49,7 +51,7 @@ const mockPlayer = {
     isHOFer: false
 };
 
-const mockPlayerArr = [
+const mockPlayerArr: Player[] = [
     {
         career_start: '1990',
         career_end: '2002',
@@ -291,7 +293,7 @@ const mockPlayerArr = [
     }
 ];
 
-module.exports = {
+export {
     mockPlayer,
     mockPlayerArr
 };

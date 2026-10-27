@@ -1,6 +1,6 @@
-const { expect } = require('chai');
+import { expect } from 'chai';
 
-const { grabPaths } = require('../../../../../src/data/graph-methods/search-methods/search-methods');
+import { grabPaths } from '../../../../../src/data/graph-methods/search-methods/search-methods';
 
 describe('Search methods', () => {
     describe('grabPaths', () => {

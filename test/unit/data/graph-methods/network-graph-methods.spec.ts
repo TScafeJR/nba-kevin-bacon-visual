@@ -1,5 +1,5 @@
-const { expect } = require('chai');
-const { filterPlayerNodesArr, filterPlayerEdgesArr } = require('../../../../src/data/graph-methods/network-graph-methods');
+import { expect } from 'chai';
+import { filterPlayerNodesArr, filterPlayerEdgesArr } from '../../../../src/data/graph-methods/network-graph-methods';
 
 describe('Network Graph Methods', () => {
     describe('filterArr', () => {
@@ -24,7 +24,7 @@ describe('Network Graph Methods', () => {
             const finalArrIds = finalArr.map(ele => ele.id);
 
             ['2', '7', '9'].forEach(element => {
-                expect(!finalArrIds.includes(element));
+                expect(finalArrIds.includes(element)).to.be.false;
             });
         });
 
@@ -33,7 +33,7 @@ describe('Network Graph Methods', () => {
             const finalArrIds = finalArr.map(ele => ele.id);
 
             ['1', '3', '5', '11', '13'].forEach(element => {
-                expect(finalArrIds.includes(element));
+                expect(finalArrIds.includes(element)).to.be.true;
             });
         });
 

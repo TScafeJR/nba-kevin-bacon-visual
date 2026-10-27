@@ -1,27 +1,44 @@
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
-import Graph from 'react-graph-vis';
+import Graph, { GraphEvents } from 'react-graph-vis';
 import '../style/NetworkGraph.css';
 
-const { getNodesAndEdgesFromPlayerName, filterPlayerNodesArr, filterPlayerEdgesArr } = require('../data/graph-methods/network-graph-methods');
-const { findPlayerIdFromName } = require('../data/graph-methods/search-methods/player-methods');
+import {
+    getNodesAndEdgesFromPlayerName,
+    filterPlayerNodesArr,
+    filterPlayerEdgesArr
+} from '../data/graph-methods/network-graph-methods';
+import { findPlayerIdFromName } from '../data/graph-methods/search-methods/player-methods';
+import { Player, PlayerEdge, PlayerNode } from '../types';
 
-class NetworkGraph extends Component {
-    constructor(props) {
+interface NetworkGraphProps {
+    startingNodes: PlayerNode[];
+    startingEdges: PlayerEdge[];
+    displayPlayer: string;
+    playerData: Array<Pick<Player, 'name'>>;
+}
+
+interface NetworkGraphState {
+    graphNodes: PlayerNode[];
+    graphEdges: PlayerEdge[];
+    playerNameArr: string[];
+}
+
+class NetworkGraph extends Component<NetworkGraphProps, NetworkGraphState> {
+    constructor(props: NetworkGraphProps) {
         super(props);
         this.state = {
             graphNodes: this.props.startingNodes,
             graphEdges: this.props.startingEdges,
-            currentPlayer: this.props.displayPlayer,
             playerNameArr: this.props.playerData.map(playerObj => playerObj.name.replace('*', ''))
         };
     }
 
-    handlePlayerChange(){
-        const formattedPlayerName = typeof this.state.currentPlayer === 'string' ? this.state.currentPlayer.trim() : '';
+    handlePlayerChange(playerName: string){
+        const formattedPlayerName = playerName.trim();
         if (this.state.playerNameArr.includes(formattedPlayerName)){
             const { edges, nodes } = getNodesAndEdgesFromPlayerName(formattedPlayerName);
-            const currPlayerId = findPlayerIdFromName(this.state.currentPlayer);
+            const currPlayerId = findPlayerIdFromName(formattedPlayerName);
             const combinedEdgeArr = [...this.state.graphEdges, ...edges];
 
             const filteredNodes = filterPlayerNodesArr(this.state.graphNodes, nodes);
@@ -34,10 +51,9 @@ class NetworkGraph extends Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps: NetworkGraphProps) {
         if (this.props.displayPlayer !== prevProps.displayPlayer) {
-            this.setState({ currentPlayer: this.props.displayPlayer });
-            this.handlePlayerChange();
+            this.handlePlayerChange(this.props.displayPlayer);
         }
     }
 
@@ -72,7 +88,7 @@ class NetworkGraph extends Component {
             height: '600px'
         };
 
-        const events = {
+        const events: GraphEvents = {
             select: function(event) {
                 const { nodes, edges } = event;
             }

@@ -5,7 +5,7 @@ import Footer from './presentational/static/Footer';
 import NetworkGraph from './NetworkGraph';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../style/App.css';
-const CONSTANTS = require('../data/constants');
+import * as CONSTANTS from '../data/constants';
 import 'font-awesome/css/font-awesome.min.css';
 
 
@@ -13,8 +13,12 @@ setConfig({
     showReactDomPatchNotification: false
 });
 
-class App extends Component {
-    constructor(props){
+interface AppState {
+    text: string;
+}
+
+class App extends Component<{}, AppState> {
+    constructor(props: {}){
         super(props);
         this.state = {
             text: CONSTANTS.STARTING_INFO.centralPlayer.label
@@ -23,10 +27,9 @@ class App extends Component {
         this.handleSearchChange = this.handleSearchChange.bind(this);
     }
 
-    handleSearchChange(e){
-        const { value } = e.target;
+    handleSearchChange(playerName: string){
         this.setState(() => ({
-            text: value
+            text: playerName
         }));
     }
 

@@ -1,7 +1,10 @@
-const playerMethods = require('./search-methods/player-methods');
-const nodeMethods = require('./node-methods');
+import * as playerMethods from './search-methods/player-methods';
+import * as nodeMethods from './node-methods';
+import { PlayerEdge, PlayerNode } from '../../types';
 
-const getNodesAndEdgesFromPlayerName = playerName => {
+const getNodesAndEdgesFromPlayerName = (
+    playerName: string
+): { nodes: PlayerNode[]; edges: PlayerEdge[] } => {
     const playerId = playerMethods.findPlayerIdFromName(playerName);
     const player = playerMethods.getPlayerFromId(playerId);
 
@@ -15,8 +18,8 @@ const getNodesAndEdgesFromPlayerName = playerName => {
     };
 };
 
-const filterPlayerNodesArr = (oldArr, newArr) => {
-    const containerObj = {};
+const filterPlayerNodesArr = <T extends { id: string }>(oldArr: T[], newArr: T[]): T[] => {
+    const containerObj: Record<string, T> = {};
     const filteredArr = [...oldArr, ...newArr]
         .filter(element => newArr.map(ele => ele.id).includes(element.id));
 
@@ -31,7 +34,7 @@ const filterPlayerNodesArr = (oldArr, newArr) => {
     return Object.values(containerObj);
 };
 
-const filterPlayerEdgesArr = (centralPlayer, edgesComboArr) => {
+const filterPlayerEdgesArr = (centralPlayer: string, edgesComboArr: PlayerEdge[]): PlayerEdge[] => {
     return edgesComboArr
         .filter(element => {
             return (
@@ -41,7 +44,7 @@ const filterPlayerEdgesArr = (centralPlayer, edgesComboArr) => {
         });
 };
 
-module.exports = {
+export {
     getNodesAndEdgesFromPlayerName,
     filterPlayerNodesArr,
     filterPlayerEdgesArr

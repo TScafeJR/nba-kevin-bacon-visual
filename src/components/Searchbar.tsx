@@ -8,11 +8,24 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import '../style/Searchbar.css';
 
 import { playerData } from '../data/constants';
+import { SearchChangeEvent, StartingInfo } from '../types';
 
-const PLAYER_NAMES = playerData.map(player => player.name.replace('*', ''));
+const PLAYER_NAMES = playerData.map(player => player.name.replace('*', '')).sort();
 
-class Searchbar extends Component {
-    constructor(props){
+interface SearchbarProps {
+    startingInfo: Pick<StartingInfo, 'centralPlayer'>;
+    displayPlayer: string;
+    handleSearchChange: (playerName: string) => void;
+}
+
+interface SearchbarState {
+    suggestions: string[];
+    text: string;
+    searchType: string;
+}
+
+class Searchbar extends Component<SearchbarProps, SearchbarState> {
+    constructor(props: SearchbarProps){
         super(props);
         this.state = {
             suggestions: [],
@@ -26,12 +39,12 @@ class Searchbar extends Component {
         this.handleSearchSelectionChange = this.handleSearchSelectionChange.bind(this);
     }
 
-    onTextChange(e){
+    onTextChange(e: SearchChangeEvent){
         const { value } = e.target;
-        let suggestions = [];
+        let suggestions: string[] = [];
         if(value.length > 0){
-            const regex = new RegExp(`^${value}`, 'i');
-            suggestions = PLAYER_NAMES.sort().filter(v => regex.test(v));
+            const query = value.toLowerCase();
+            suggestions = PLAYER_NAMES.filter(v => v.toLowerCase().startsWith(query));
         }
 
         this.setState(() => ({
@@ -39,11 +52,11 @@ class Searchbar extends Component {
             text: value
         }));
 
-        this.props.handleSearchChange(e);
+        this.props.handleSearchChange(value);
     }
 
 
-    handleSearchSelectionChange(e){
+    handleSearchSelectionChange(e: string | null){
         // const { value } = e.target;
         console.log(e)
         //
@@ -54,11 +67,13 @@ class Searchbar extends Component {
         console.log(this.state);
     }
 
-    selectedText(value) {
+    selectedText(value: string) {
         this.setState(() => ({
             text: value,
             suggestions: []
         }));
+
+        this.props.handleSearchChange(value);
     }
 
     renderSuggestions() {
