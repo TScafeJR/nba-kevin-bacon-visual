@@ -14,3 +14,8 @@ storybook-static/
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
+
+# Claude Code: local settings and project instructions
+.claude/
+CLAUDE.md
+CLAUDE.local.md
