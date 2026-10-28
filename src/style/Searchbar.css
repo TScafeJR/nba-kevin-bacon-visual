@@ -1,15 +1,114 @@
-.search-bar {
-    padding: 10px 0;
+.search {
+    position: relative;
 }
 
-.form-control {
-    color: black !important;
+.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    pointer-events: none;
 }
 
-.dropdown {
-    color: black !important;
+.search-input {
+    width: 100%;
+    height: var(--control-height);
+    padding: 0 36px;
+    border: 1px solid var(--control);
+    border-radius: var(--radius-control);
+    background: var(--surface);
+    color: var(--text);
+    font-size: var(--fs-body);
+    -webkit-appearance: none;
+    appearance: none;
 }
 
-button.dropdown-toggle {
-    color: black !important;
+.search-input::-webkit-search-cancel-button {
+    display: none;
+}
+
+.search-input::placeholder {
+    color: var(--faint);
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--text);
+}
+
+.search-key {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--control);
+    border-radius: var(--radius-chip);
+    color: var(--faint);
+    font-family: var(--font);
+    font-size: var(--fs-small);
+}
+
+.search-input:focus ~ .search-key {
+    display: none;
+}
+
+.search-suggestions,
+.search-empty {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    padding: 4px;
+    background: var(--raised);
+    border-radius: var(--radius-panel);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5); /* taste-skill-ignore: a floating menu */
+}
+
+.search-empty {
+    padding: 10px 12px;
+    color: var(--muted);
+}
+
+.search-suggestions li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 8px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.search-suggestions li.is-active {
+    background: var(--control);
+}
+
+.suggestion-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.suggestion-years {
+    margin-left: auto;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+    .search-input {
+        height: 44px;
+        font-size: 16px;
+    }
+
+    .search-key {
+        display: none;
+    }
 }

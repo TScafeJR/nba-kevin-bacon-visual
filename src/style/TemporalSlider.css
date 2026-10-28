@@ -1,0 +1,148 @@
+/* The rail is inset by half a thumb on each side, because a range input's thumb centre only
+   travels that far; the fill then lines up with the thumbs at every value. */
+.slider {
+    --thumb: 18px;
+    --slider-height: 28px;
+    display: grid;
+    gap: 4px;
+    min-width: 0;
+}
+
+.slider-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.slider-label {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.slider-value {
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.slider-count {
+    color: var(--muted);
+    font-weight: 400;
+}
+
+.slider-track {
+    position: relative;
+    height: var(--slider-height);
+    cursor: pointer;
+    touch-action: none;
+}
+
+.slider-rail {
+    position: absolute;
+    top: 50%;
+    left: calc(var(--thumb) / 2);
+    right: calc(var(--thumb) / 2);
+    height: 4px;
+    margin-top: -2px;
+    border-radius: 2px;
+    background: var(--raised);
+}
+
+.slider-fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    border-radius: 2px;
+    background: var(--text);
+}
+
+.slider-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background: none;
+    -webkit-appearance: none;
+    appearance: none;
+    pointer-events: none;
+}
+
+.slider-input.is-top {
+    z-index: 1;
+}
+
+.slider-input:focus-visible {
+    outline: none;
+}
+
+.slider-input::-webkit-slider-runnable-track {
+    height: var(--slider-height);
+    background: none;
+}
+
+.slider-input::-moz-range-track {
+    background: none;
+}
+
+.slider-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    box-sizing: border-box;
+    width: var(--thumb);
+    height: var(--thumb);
+    margin-top: calc((var(--slider-height) - var(--thumb)) / 2);
+    border: 0;
+    border-radius: 50%;
+    background: var(--text);
+    cursor: grab;
+    pointer-events: auto;
+    transition: transform 120ms var(--ease);
+}
+
+.slider-input::-moz-range-thumb {
+    box-sizing: border-box;
+    width: var(--thumb);
+    height: var(--thumb);
+    border: 0;
+    border-radius: 50%;
+    background: var(--text);
+    cursor: grab;
+    pointer-events: auto;
+    transition: transform 120ms var(--ease);
+}
+
+.slider-input:active::-webkit-slider-thumb {
+    cursor: grabbing;
+    transform: scale(1.1);
+}
+
+.slider-input:active::-moz-range-thumb {
+    cursor: grabbing;
+    transform: scale(1.1);
+}
+
+.slider-input:focus-visible::-webkit-slider-thumb {
+    outline: 2px solid var(--text);
+    outline-offset: 3px;
+}
+
+.slider-input:focus-visible::-moz-range-thumb {
+    outline: 2px solid var(--text);
+    outline-offset: 3px;
+}
+
+.slider-scale {
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: var(--fs-small);
+    line-height: 16px;
+}
+
+/* a larger thumb and a 44px tall track for fingers */
+@media (pointer: coarse) {
+    .slider {
+        --thumb: 24px;
+        --slider-height: 44px;
+    }
+}

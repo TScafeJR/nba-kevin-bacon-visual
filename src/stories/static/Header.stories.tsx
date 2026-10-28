@@ -1,19 +1,17 @@
-import React, { ComponentProps } from 'react';
-import { Meta, Story } from '@storybook/react/types-6-0';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { fn } from 'storybook/test';
 import Header from '../../components/presentational/static/Header';
-import * as CONSTANTS from '../../../src/data/constants';
 
-export default {
+const meta = {
     title: 'Static/Header',
     component: Header
-} as Meta;
+} satisfies Meta<typeof Header>;
 
-const Template: Story<ComponentProps<typeof Header>> = args => <Header {...args}/>;
+export default meta;
 
-export const PrimaryHeader = Template.bind({});
-
-PrimaryHeader.args = {
-    startingInfo: CONSTANTS.STARTING_INFO,
-    displayPlayer: 'Kobe Bryant',
-    handleSearchChange: () => {}
+export const PrimaryHeader: StoryObj<typeof meta> = {
+    args: {
+        onSelectPlayer: fn(),
+        onRandomPlayer: fn()
+    }
 };

@@ -1,0 +1,182 @@
+/* the path reads left to right on one line; on a narrow screen it scrolls inside its own frame
+   rather than wrapping, so every link stays between the two players it joins */
+.hops {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    align-items: center;
+    gap: 20px;
+    padding: 10px var(--card-pad) 10px var(--card-pad);
+}
+
+.hops-head h2 {
+    font-size: var(--fs-section);
+    line-height: 24px;
+    font-weight: 600;
+}
+
+.hops-head .panel-sub {
+    margin-top: 2px;
+}
+
+.hops-path {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+    overflow-x: auto;
+    padding: 4px 2px;
+    scrollbar-width: thin;
+}
+
+.hop {
+    flex: none;
+}
+
+.hop-stop {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 44px;
+    padding: 0 14px 0 6px;
+    border: 0;
+    border-radius: var(--radius-control);
+    background: var(--raised);
+    color: var(--text);
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 120ms var(--ease), transform 120ms var(--ease);
+}
+
+button.hop-stop {
+    background: none;
+    color: var(--muted);
+    border: 1px solid var(--control);
+}
+
+button.hop-stop:hover {
+    background: var(--active);
+    color: var(--text);
+}
+
+.hop-stop.is-current {
+    cursor: default;
+}
+
+.hop-photo {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: var(--fs-small);
+}
+
+.hop-link {
+    flex: none;
+    display: grid;
+    justify-items: center;
+    min-width: 72px;
+    padding: 0 6px;
+    border-top: 2px solid var(--chart-1);
+    line-height: 16px;
+}
+
+.hop-team {
+    margin-top: 4px;
+    color: var(--text);
+    font-size: var(--fs-small);
+    font-weight: 600;
+}
+
+.hop-years {
+    color: var(--faint);
+    font-size: var(--fs-small);
+}
+
+.hop-next {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 6px;
+}
+
+.hop-next-label {
+    color: var(--faint);
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.hop-options {
+    display: flex;
+    gap: 6px;
+}
+
+.hop-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 48px;
+    padding: 0 16px 0 8px;
+    border: 1px dashed var(--control);
+    border-radius: var(--radius-control);
+    background: none;
+    text-align: left;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 120ms var(--ease), border-color 120ms var(--ease), transform 120ms var(--ease);
+}
+
+.hop-option:hover {
+    border-style: solid;
+    background: var(--active);
+}
+
+.hop-option-text {
+    display: grid;
+    line-height: 16px;
+}
+
+.hop-option .hop-name {
+    font-weight: 500;
+}
+
+.hop-stop:active,
+.hop-option:active {
+    transform: scale(0.97);
+}
+
+@media (max-width: 1100px) {
+    .hops {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 10px;
+    }
+
+    /* without the room to run on one line, the path and its first hops wrap instead of hiding */
+    .hops-path {
+        flex-wrap: wrap;
+        overflow: visible;
+        row-gap: 10px;
+    }
+
+    .hop-next,
+    .hop-options {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 640px) {
+    .hop-next {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .hop-options {
+        flex-direction: column;
+    }
+
+    .hop-option {
+        width: 100%;
+    }
+}

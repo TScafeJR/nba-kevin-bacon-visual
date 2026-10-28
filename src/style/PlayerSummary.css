@@ -1,0 +1,164 @@
+/* the object header: the player's photo, name, meta and finding, with the one way out on the right */
+.summary {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 12px var(--card-pad) 12px 12px;
+}
+
+.summary-photo {
+    width: 64px;
+    height: 80px;
+    border-radius: var(--radius-panel);
+    font-size: var(--fs-title);
+}
+
+.summary-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.summary-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.summary h1 {
+    font-size: var(--fs-title);
+    line-height: 28px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.summary-meta {
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 18px;
+}
+
+.summary-finding {
+    margin-top: 6px;
+    line-height: 20px;
+}
+
+.summary-credit {
+    margin-top: 4px;
+    overflow: hidden;
+    color: var(--faint);
+    font-size: var(--fs-small);
+    line-height: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.summary-credit a {
+    color: inherit;
+}
+
+.summary-link {
+    flex: none;
+    align-self: flex-start;
+    margin-top: 4px;
+}
+
+/* the KPI tiles: a grey label over the value, a grey line of context under it */
+.kpi {
+    display: grid;
+    align-content: start;
+    gap: 2px;
+    margin: 0;
+    padding: 14px var(--card-pad);
+}
+
+.kpi dt {
+    color: var(--muted);
+    font-size: var(--fs-body);
+}
+
+.kpi-value {
+    font-size: var(--fs-kpi);
+    line-height: 32px;
+    font-weight: 500;
+}
+
+/* the answer figure is the largest number on the screen */
+.kpi.is-lead .kpi-value {
+    font-size: var(--fs-lead);
+    line-height: 32px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.kpi-line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 18px;
+}
+
+.kpi-unit {
+    margin-left: 4px;
+    color: var(--faint);
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.kpi-sub {
+    color: var(--faint);
+    font-size: 13px;
+    line-height: 18px;
+}
+
+/* the final layout with the value held by a flat bar of its own size until the data lands */
+.kpi-loading {
+    display: inline-block;
+    width: 168px;
+    height: 24px;
+    border-radius: 6px;
+    background: var(--raised);
+    vertical-align: middle;
+}
+
+.kpi-loading.is-small {
+    width: 140px;
+    height: 12px;
+}
+
+/* two tiles side by side and the career line under them at full width, on tablets and phones */
+@media (max-width: 1100px) {
+    .kpi.span-2 {
+        grid-column: span 3;
+    }
+
+    .kpi.kpi-career {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 640px) {
+    .summary {
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 14px;
+        padding: 14px;
+    }
+
+    .summary-photo {
+        width: 56px;
+        height: 70px;
+    }
+
+    .summary-details {
+        flex-basis: calc(100% - 70px);
+    }
+
+    .summary-link {
+        margin-top: 0;
+        min-height: 44px;
+    }
+
+    .kpi {
+        padding: 12px 16px;
+    }
+}

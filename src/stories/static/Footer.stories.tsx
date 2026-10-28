@@ -1,14 +1,17 @@
-import React from 'react';
-import { Meta, Story } from '@storybook/react/types-6-0';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import Footer from '../../components/presentational/static/Footer';
-import '../../style/Footer.css';
 
-export default {
+const meta = {
     title: 'Static/Footer',
     component: Footer
-} as Meta;
+} satisfies Meta<typeof Footer>;
 
-const Template: Story = args => <Footer {...args}/>;
+export default meta;
 
-export const PrimaryFooter = Template.bind({});
+export const PrimaryFooter: StoryObj<typeof meta> = {
+    args: {
+        playerCount: 5416,
+        lastSeason: 2026
+    }
+};

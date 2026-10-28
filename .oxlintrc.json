@@ -1,0 +1,37 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc", "react", "vitest"],
+  "categories": {
+    "correctness": "error"
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "ignorePatterns": ["dist", "storybook-static", "src/data/*.json"],
+  "rules": {
+    // carried over from @dukes-wine/eslint-config-dukes-wine; oxlint has no layout rules or camelcase
+    "no-extra-boolean-cast": "error",
+    "no-irregular-whitespace": "error",
+    "no-unreachable": "error",
+    "curly": ["error", "all"],
+    "eqeqeq": ["error", "smart"],
+    "no-self-assign": "error",
+    "no-shadow-restricted-names": "error",
+    "no-lonely-if": "error",
+    "no-multi-assign": "error",
+    "no-unneeded-ternary": "error",
+    "no-const-assign": "error",
+    "no-var": "error",
+    "prefer-const": "error",
+    "prefer-destructuring": ["error", { "array": false, "object": true }, {
+      "enforceForRenamedProperties": false
+    }],
+
+    // the data scripts keep exploratory helpers around, so dead code warns rather than fails
+    "no-unused-vars": "warn",
+    "typescript/no-empty-object-type": "error",
+    "react/rules-of-hooks": "error",
+    "react/only-export-components": ["error", { "allowConstantExport": true }]
+  }
+}

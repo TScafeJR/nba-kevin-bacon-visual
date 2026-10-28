@@ -1,3 +1,64 @@
-.custom-navbar {
-    border-radius: 1% !important;
+/* the bar sits on the page ground over the column: the mark on the column's left edge, the one
+   primary action ending on its right edge */
+.topbar {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 440px) minmax(0, 1fr);
+    align-items: center;
+    gap: 16px;
+    height: 64px;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.mark {
+    flex: none;
+    fill: none;
+    stroke: var(--chart-1);
+    stroke-width: 1.5;
+}
+
+.topbar-actions {
+    justify-self: end;
+}
+
+@media (max-width: 1100px) {
+    .topbar {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+    }
+
+    .brand-name {
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 640px) {
+    .topbar {
+        grid-template-columns: minmax(0, 1fr) auto;
+        height: auto;
+        row-gap: 10px;
+        padding-top: 12px;
+        padding-bottom: 8px;
+    }
+
+    .topbar-search {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+
+    .topbar-actions .button span {
+        display: none;
+    }
+
+    .topbar-actions .button {
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        justify-content: center;
+    }
 }

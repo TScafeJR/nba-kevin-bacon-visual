@@ -1,0 +1,149 @@
+.strip-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    line-height: 24px;
+}
+
+.strip-note.is-highlight {
+    color: var(--text);
+}
+
+.strip-plot {
+    --plot-height: 140px;
+    position: relative;
+    margin: 4px var(--card-pad) var(--card-pad);
+    padding-left: 36px;
+}
+
+.strip-grid {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: var(--plot-height);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.strip-gridline {
+    position: relative;
+    height: 0;
+    margin-left: 36px;
+    border-top: 1px solid var(--grid);
+}
+
+.strip-gridline:last-child {
+    border-top-color: var(--control);
+}
+
+.strip-tick {
+    position: absolute;
+    left: -36px;
+    top: -9px;
+    width: 28px;
+    text-align: right;
+    color: var(--muted);
+    font-size: var(--fs-small);
+    line-height: 18px;
+}
+
+.strip-cols {
+    position: relative;
+    display: flex;
+    gap: 4px;
+}
+
+.strip-col {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.strip-bar-area {
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    height: var(--plot-height);
+}
+
+.strip-bar {
+    width: 100%;
+    max-width: 44px;
+    margin: 0 auto;
+    background: var(--chart-3);
+    transition: background-color 120ms var(--ease);
+}
+
+.strip-bar.is-shared {
+    background: var(--chart-1);
+}
+
+.strip-bar.is-dimmed {
+    background: var(--raised);
+}
+
+/* hovering a season fades the rest, so the bar whose numbers the note shows stands out */
+.strip-cols:hover .strip-bar {
+    opacity: 0.4;
+}
+
+.strip-cols .strip-col:hover .strip-bar {
+    opacity: 1;
+}
+
+.strip-year {
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: var(--fs-small);
+    line-height: 16px;
+}
+
+.strip-team {
+    min-height: 16px;
+    font-size: var(--fs-small);
+    line-height: 16px;
+    font-weight: 500;
+}
+
+@media (max-width: 900px) {
+    .strip-col.is-odd .strip-year {
+        visibility: hidden;
+    }
+}
+
+@media (max-width: 640px) {
+    .strip-plot {
+        --plot-height: 120px;
+        padding-left: 28px;
+    }
+
+    .strip-gridline {
+        margin-left: 28px;
+    }
+
+    .strip-tick {
+        left: -28px;
+        width: 22px;
+    }
+
+    .strip-cols {
+        gap: 2px;
+    }
+
+    .strip-year {
+        font-size: 11px;
+    }
+
+    /* every fourth season, so neighbouring years never touch at a phone's width */
+    .strip-col:not(:nth-child(4n + 1)) .strip-year {
+        visibility: hidden;
+    }
+
+    .strip-team {
+        font-size: 11px;
+    }
+}

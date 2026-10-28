@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { describe, expect, it } from 'vitest';
 import { filterPlayerNodesArr, filterPlayerEdgesArr } from '../../../../src/data/graph-methods/network-graph-methods';
 
 describe('Network Graph Methods', () => {
@@ -24,7 +24,7 @@ describe('Network Graph Methods', () => {
             const finalArrIds = finalArr.map(ele => ele.id);
 
             ['2', '7', '9'].forEach(element => {
-                expect(finalArrIds.includes(element)).to.be.false;
+                expect(finalArrIds.includes(element)).toBe(false);
             });
         });
 
@@ -33,14 +33,14 @@ describe('Network Graph Methods', () => {
             const finalArrIds = finalArr.map(ele => ele.id);
 
             ['1', '3', '5', '11', '13'].forEach(element => {
-                expect(finalArrIds.includes(element)).to.be.true;
+                expect(finalArrIds.includes(element)).toBe(true);
             });
         });
 
         it('Should not contain any duplicates', () => {
             const finalArr = filterPlayerNodesArr(oldArr, newArr);
             const finalArrIds = finalArr.map(ele => ele.id);
-            expect(finalArrIds.length).to.eql(new Set(finalArrIds).size);
+            expect(finalArrIds.length).toEqual(new Set(finalArrIds).size);
         });
     });
 
@@ -60,7 +60,7 @@ describe('Network Graph Methods', () => {
             const finalArr = filterPlayerEdgesArr(playerId, edgeArr);
             finalArr.forEach(element => {
                 const hasPlayerIdVal = element.to === playerId || element.from === playerId;
-                expect(hasPlayerIdVal).to.be.true;
+                expect(hasPlayerIdVal).toBe(true);
             });
         });
     });

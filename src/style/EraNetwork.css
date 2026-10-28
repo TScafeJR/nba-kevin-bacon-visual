@@ -1,0 +1,273 @@
+/* The era view sits straight on the view's grid: a title row, one filter row, three tiles, then
+   the ranking in four columns beside the profile card in two, like the network and its list. */
+.era-head {
+    padding: 14px 2px 0;
+}
+
+.era-head h2 {
+    font-size: var(--fs-title);
+    line-height: 28px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.era-head .panel-sub {
+    margin-top: 2px;
+}
+
+.era-controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 150px auto auto;
+    align-items: end;
+    gap: 14px 24px;
+    padding: 4px 2px 0;
+}
+
+.era-field {
+    display: grid;
+    gap: 6px;
+}
+
+.era-field-label {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* the segmented control is neutral: the selected option is a raised step, not a colour */
+.segmented {
+    display: inline-flex;
+    gap: 2px;
+    padding: 3px;
+    border-radius: var(--radius-control);
+    background: var(--surface);
+}
+
+.segmented button {
+    height: 30px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: var(--radius-control);
+    background: none;
+    color: var(--faint);
+    font-size: var(--fs-body);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 120ms var(--ease), color 120ms var(--ease);
+}
+
+.segmented button:hover {
+    color: var(--text);
+}
+
+.segmented button.is-selected {
+    background: var(--raised);
+    color: var(--text);
+}
+
+.era-status {
+    min-height: 18px;
+    padding: 0 2px;
+}
+
+/* the live region stays in the page for screen readers, but takes no room while it has nothing to say */
+.era-status:empty {
+    min-height: 0;
+    margin-top: calc(-1 * var(--gap));
+}
+
+.kpi-value.is-missing {
+    color: var(--faint);
+}
+
+/* the ranking: two columns of five, read down then across */
+.era-ranking {
+    padding-bottom: 12px;
+    transition: opacity 120ms var(--ease);
+}
+
+.era-ranking h3 {
+    font-size: var(--fs-section);
+    line-height: 24px;
+    font-weight: 600;
+}
+
+.era-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(5, auto);
+    grid-auto-flow: column;
+    gap: 2px 12px;
+    padding: 0 10px;
+}
+
+.era-row {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr) auto;
+    grid-template-areas:
+        "rank name score"
+        ". sub sub"
+        ". bar bar";
+    column-gap: 8px;
+    width: 100%;
+    padding: 9px 12px 10px 8px;
+    border: 0;
+    border-radius: 12px;
+    background: none;
+    color: var(--text);
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 120ms var(--ease);
+}
+
+.era-row:hover {
+    background: var(--active);
+}
+
+.era-row.is-active {
+    background: var(--raised);
+}
+
+.era-row.is-placeholder {
+    display: flex;
+    align-items: center;
+    height: 62px;
+    cursor: default;
+}
+
+.era-rank {
+    grid-area: rank;
+    color: var(--faint);
+    text-align: right;
+}
+
+.era-name {
+    grid-area: name;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    font-weight: 500;
+}
+
+.era-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.era-row.is-current .era-label {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+.era-score {
+    grid-area: score;
+    text-align: right;
+}
+
+.era-sub {
+    grid-area: sub;
+    color: var(--faint);
+    font-size: var(--fs-small);
+    line-height: 18px;
+}
+
+/* the ranking is this view's main data, so its bars carry the one hue */
+.era-bar {
+    grid-area: bar;
+    display: block;
+    height: 3px;
+    margin-top: 6px;
+    border-radius: 2px;
+    background: var(--active);
+}
+
+.era-bar span {
+    display: block;
+    height: 100%;
+    border-radius: 2px;
+    background: var(--chart-1);
+}
+
+.era-profile {
+    min-width: 0;
+    display: grid;
+    transition: opacity 120ms var(--ease);
+}
+
+.is-stale {
+    opacity: 0.55;
+}
+
+.era-message {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px var(--card-pad);
+    color: var(--muted);
+}
+
+.era-retry {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--text);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.era-match {
+    align-self: center;
+    margin-bottom: 8px;
+}
+
+@media (max-width: 1100px) {
+    .era-controls {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .era-controls .slider {
+        grid-column: 1 / -1;
+    }
+
+    /* without hover, a tapped row's details land where the eye already is: the card comes after
+       the tiles and before the ranking */
+    .era-profile {
+        order: 1;
+    }
+
+    .era-ranking,
+    .era-message {
+        order: 2;
+    }
+
+    .era-profile,
+    .era-ranking {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 640px) {
+    .era-controls {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .era-list {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: none;
+        grid-auto-flow: row;
+    }
+
+    .segmented {
+        display: flex;
+    }
+
+    .segmented button {
+        flex: 1;
+        height: 40px;
+    }
+}

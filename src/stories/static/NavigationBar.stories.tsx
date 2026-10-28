@@ -1,12 +1,16 @@
-import React from 'react';
-import { Meta, Story } from '@storybook/react/types-6-0';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { fn } from 'storybook/test';
 import NavigationBar from '../../components/presentational/static/NavigationBar';
 
-export default {
+const meta = {
     title: 'Static/NavigationBar',
     component: NavigationBar
-} as Meta;
+} satisfies Meta<typeof NavigationBar>;
 
-const Template: Story = args => <NavigationBar {...args}/>;
+export default meta;
 
-export const BasicNavigationBar = Template.bind({});
+export const BasicNavigationBar: StoryObj<typeof meta> = {
+    args: {
+        onRandomPlayer: fn()
+    }
+};
