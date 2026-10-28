@@ -10,7 +10,7 @@ interface FooterProps {
 class Footer extends Component<FooterProps> {
     render() {
         return (
-            <footer className="footer">
+            <footer className="footer column">
                 <p>
                     {this.props.playerCount.toLocaleString('en')} players from the BAA, ABA and NBA, 1947 to {this.props.lastSeason}.
                     Player data from <a href="https://www.basketball-reference.com">Basketball-Reference</a>.

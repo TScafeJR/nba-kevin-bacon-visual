@@ -1,8 +1,7 @@
 .profile-card {
     display: grid;
     gap: 16px;
-    padding: 16px;
-    border: 1px solid var(--border);
+    padding: 18px var(--card-pad) var(--card-pad);
     border-radius: var(--radius-card);
     background: var(--surface);
 }
@@ -17,6 +16,7 @@
 .profile-photo {
     width: 56px;
     height: 56px;
+    border-radius: 50%;
     font-size: var(--fs-section);
 }
 
@@ -42,7 +42,7 @@
 
 .profile-sub {
     margin: 0;
-    color: var(--muted);
+    color: var(--faint);
     font-size: 13px;
     line-height: 18px;
 }
@@ -97,4 +97,5 @@
 .profile-open {
     justify-content: center;
     width: 100%;
+    align-self: end;
 }

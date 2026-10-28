@@ -1,62 +1,21 @@
+/* the object header: the player's photo, name, meta and finding, with the one way out on the right */
 .summary {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    column-gap: 32px;
-}
-
-.summary-identity {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 20px;
-    padding: var(--card-pad) var(--card-pad) 16px;
-}
-
-.summary-details {
-    min-width: 0;
+    padding: 12px var(--card-pad) 12px 12px;
 }
 
 .summary-photo {
-    width: 112px;
-    height: 112px;
-    font-size: var(--fs-figure);
+    width: 64px;
+    height: 80px;
+    border-radius: var(--radius-panel);
+    font-size: var(--fs-title);
 }
 
-.summary-career {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px 20px;
-    margin-top: 10px;
-}
-
-.summary-career div {
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-}
-
-.summary-career dt {
-    order: 1;
-    color: var(--muted);
-    font-size: 13px;
-}
-
-.summary-career dd {
-    font-size: 15px;
-    font-weight: 500;
-}
-
-.summary-credit {
-    margin-top: 8px;
-    overflow: hidden;
-    color: var(--muted);
-    font-size: var(--fs-small);
-    line-height: 16px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.summary-credit a {
-    color: inherit;
+.summary-details {
+    flex: 1;
+    min-width: 0;
 }
 
 .summary-title {
@@ -67,179 +26,139 @@
 
 .summary h1 {
     font-size: var(--fs-title);
-    line-height: 32px;
-    font-weight: 700;
+    line-height: 28px;
+    font-weight: 600;
     letter-spacing: -0.01em;
 }
 
 .summary-meta {
-    margin-top: 4px;
+    margin-top: 2px;
     color: var(--muted);
-}
-
-.summary-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 2px;
-    margin-left: 12px;
-    color: var(--text);
-    text-decoration: none;
-    font-weight: 500;
-    white-space: nowrap;
-}
-
-.summary-link:hover {
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    font-size: 13px;
+    line-height: 18px;
 }
 
 .summary-finding {
-    margin-top: 10px;
-    font-size: 15px;
-    line-height: 22px;
+    margin-top: 6px;
+    line-height: 20px;
 }
 
-.summary-figures {
-    display: grid;
-    grid-template-columns: repeat(4, auto);
-    align-self: center;
-    margin-right: var(--card-pad);
-}
-
-.figure {
-    padding: 4px 24px;
-    border-left: 1px solid var(--border);
-}
-
-.figure:first-child {
-    border-left: 0;
-}
-
-.figure dt {
-    color: var(--muted);
-    font-size: 13px;
+.summary-credit {
+    margin-top: 4px;
+    overflow: hidden;
+    color: var(--faint);
+    font-size: var(--fs-small);
+    line-height: 16px;
     white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
-.figure dd {
-    margin-top: 2px;
-    font-size: var(--fs-figure);
+.summary-credit a {
+    color: inherit;
+}
+
+.summary-link {
+    flex: none;
+    align-self: flex-start;
+    margin-top: 4px;
+}
+
+/* the KPI tiles: a grey label over the value, a grey line of context under it */
+.kpi {
+    display: grid;
+    align-content: start;
+    gap: 2px;
+    margin: 0;
+    padding: 14px var(--card-pad);
+}
+
+.kpi dt {
+    color: var(--muted);
+    font-size: var(--fs-body);
+}
+
+.kpi-value {
+    font-size: var(--fs-kpi);
     line-height: 32px;
+    font-weight: 500;
+}
+
+/* the answer figure is the largest number on the screen */
+.kpi.is-lead .kpi-value {
+    font-size: var(--fs-lead);
+    line-height: 32px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.kpi-line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 18px;
+}
+
+.kpi-unit {
+    margin-left: 4px;
+    color: var(--faint);
+    font-size: 13px;
     font-weight: 400;
 }
 
-.figure.is-lead dd {
-    font-size: var(--fs-kpi);
-    font-weight: 500;
+.kpi-sub {
+    color: var(--faint);
+    font-size: 13px;
+    line-height: 18px;
 }
 
-.trail {
-    grid-column: 1 / -1;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px 16px;
-    padding: 10px var(--card-pad);
-    border-top: 1px solid var(--rule);
-}
-
-.trail ol {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 2px;
-}
-
-.trail li {
-    display: inline-flex;
-    align-items: center;
-    gap: 2px;
-}
-
-.trail-sep {
-    color: var(--muted);
-}
-
-.trail-stop {
-    height: 28px;
-    padding: 0 8px;
-    border: 0;
-    border-radius: var(--radius-control);
-    background: none;
-    font-size: var(--fs-body);
-    line-height: 28px;
-    cursor: pointer;
-    transition: background-color 120ms var(--ease);
-}
-
-button.trail-stop {
-    color: var(--muted);
-}
-
-button.trail-stop:hover {
+/* the final layout with the value held by a flat bar of its own size until the data lands */
+.kpi-loading {
+    display: inline-block;
+    width: 168px;
+    height: 24px;
+    border-radius: 6px;
     background: var(--raised);
-    color: var(--text);
+    vertical-align: middle;
 }
 
-.trail-stop.is-current {
-    background: var(--raised);
-    font-weight: 500;
-    cursor: default;
+.kpi-loading.is-small {
+    width: 140px;
+    height: 12px;
 }
 
-.trail-count {
-    color: var(--muted);
-}
-
+/* two tiles side by side and the career line under them at full width, on tablets and phones */
 @media (max-width: 1100px) {
-    .summary {
-        grid-template-columns: minmax(0, 1fr);
+    .kpi.span-2 {
+        grid-column: span 3;
     }
 
-    .summary-figures {
-        margin: 0 var(--card-pad) 16px;
-        justify-self: start;
-    }
-
-    .figure:first-child {
-        padding-left: 0;
+    .kpi.kpi-career {
+        grid-column: 1 / -1;
     }
 }
 
 @media (max-width: 640px) {
-    .summary-identity {
+    .summary {
+        flex-wrap: wrap;
+        align-items: flex-start;
         gap: 14px;
+        padding: 14px;
     }
 
     .summary-photo {
-        width: 72px;
-        height: 72px;
+        width: 56px;
+        height: 70px;
     }
 
-    .summary-figures {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        justify-self: stretch;
-        row-gap: 12px;
-    }
-
-    .figure {
-        padding: 0 0 0 16px;
-    }
-
-    .figure:nth-child(odd) {
-        border-left: 0;
-        padding-left: 0;
+    .summary-details {
+        flex-basis: calc(100% - 70px);
     }
 
     .summary-link {
-        display: flex;
-        width: max-content;
-        margin: 6px 0 0;
-        min-height: 28px;
+        margin-top: 0;
+        min-height: 44px;
     }
 
-    .trail-stop {
-        height: 36px;
-        line-height: 36px;
+    .kpi {
+        padding: 12px 16px;
     }
 }

@@ -14,7 +14,7 @@
     "api": "node server/index.ts",
     "api:dev": "node --watch server/index.ts",
     "build-storybook": "storybook build",
-    "data": "node scripts/build-player-data.ts",
+    "data": "node scripts/build-player-data.ts && node scripts/build-story-fixtures.ts",
     "dev": "vite",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",

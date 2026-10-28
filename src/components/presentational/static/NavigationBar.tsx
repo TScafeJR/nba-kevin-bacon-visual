@@ -7,7 +7,7 @@ interface NavigationBarProps {
     children?: ReactNode;
 }
 
-// the mark: a ball's seams, drawn in ink
+// the mark: a ball and its seams, in the leather orange the data uses
 const Mark = () => 
     <svg className="mark" width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
         <circle cx="11" cy="11" r="9.25" />
@@ -18,7 +18,7 @@ const Mark = () =>
 class NavigationBar extends Component<NavigationBarProps> {
     render() {
         return (
-            <header className="topbar">
+            <header className="topbar column">
                 <div className="brand">
                     <Mark />
                     <span className="brand-name">NBA Kevin Bacon</span>
@@ -27,7 +27,7 @@ class NavigationBar extends Component<NavigationBarProps> {
                     {this.props.children}
                 </div>
                 <div className="topbar-actions">
-                    <button type="button" className="button button-secondary" onClick={this.props.onRandomPlayer} aria-label="Random Hall of Famer">
+                    <button type="button" className="button button-primary" onClick={this.props.onRandomPlayer} aria-label="Random Hall of Famer">
                         <Shuffle size={15} strokeWidth={1.75} aria-hidden="true" />
                         <span>Random Hall of Famer</span>
                     </button>

@@ -1,35 +1,42 @@
-/* Achromatic ledger: the chrome is ink on a stone ground; the one hue (--chart-3) marks
-   long partnerships in the graph, the list and the season strip, and nothing else. */
+/* True-black flat: one ground, cards one lightness step above it, no borders or shadows at rest.
+   The one hue is the ball's leather orange (--chart-1) and it goes on data only: connection
+   strength, so long partnerships, shared seasons and the era's bridging scores. Buttons, tabs and
+   nav stay neutral; the one primary action is a white pill. */
 :root {
-    --ground: #f4f3f1;
-    --surface: #ffffff;
-    --raised: #eeeeee;
-    --border: #e6e6e6;
-    --rule: #f0f0f0;
-    --control: #d4d4d4;
-    --text: #0a0a0a;
-    --muted: #6b6b6b;
-    --accent: #141414;
-    --chart-1: #141414;
-    --chart-2: #b5b5b5;
-    --chart-3: #1d5fbf;
-    --pill-neutral-bg: #eeeeee;
-    --pill-neutral-ink: #3d3d3d;
+    color-scheme: dark;
 
-    --radius-card: 8px;
-    --radius-control: 6px;
-    --radius-chip: 4px;
-    --gap: 12px;
-    --pad: 32px;
-    --card-pad: 20px;
+    --ground: #000000;
+    --surface: #111111;
+    --raised: #2a2a2a;
+    --active: #222222;
+    --border: #1a1a1a;
+    --rule: #262626;
+    --control: #444444;
+    --text: #ffffff;
+    --muted: #b4b4b4;
+    --faint: #949494;
+    --chart-1: #ff7a2f;
+    --chart-2: #e6e6e6;
+    --chart-3: #6b6b6b;
+    --grid: #2b2b2b;
+    --pill-neutral-bg: #222222;
+    --pill-neutral-ink: #ffffff;
+
+    --radius-card: 20px;
+    --radius-panel: 14px;
+    --radius-control: 999px;
+    --radius-chip: 6px;
+    --gap: 14px;
+    --pad: 24px;
+    --card-pad: 22px;
     --control-height: 36px;
-    --row-height: 44px;
+    --column: 1208px;
 
-    --font: "Geist", Inter, system-ui, sans-serif;
-    --fs-title: 24px;
+    --font: "Inter", system-ui, sans-serif;
+    --fs-title: 20px;
     --fs-section: 16px;
-    --fs-kpi: 30px;
-    --fs-figure: 22px;
+    --fs-lead: 30px;
+    --fs-kpi: 24px;
     --fs-body: 14px;
     --fs-small: 12px;
 
@@ -54,7 +61,7 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, p, ul, ol, dl, dd {
+h1, h2, h3, p, ul, ol, dl, dd {
     margin: 0;
 }
 
@@ -79,45 +86,46 @@ a {
 
 ::selection {
     background: var(--text);
-    color: var(--surface);
+    color: var(--ground);
 }
 
 .num {
     font-variant-numeric: tabular-nums;
 }
 
-/* Grid: one 12px gutter both ways. At 1440 the canvas is 1440 - 2 x 32 = 1376 wide;
-   the explorer row is (1376 - 12 - 384) = 980 for the graph + 12 + 384 for the list,
-   so every panel lands on the same two edges. */
+/* The column: 1208px on a 6-column grid with one 14px gutter both ways, centred, so
+   6 x 189.67 + 5 x 14 = 1208 and a span of 4 beside a span of 2 lands on the same edges as three
+   spans of 2. The top bar and the footer sit on the same column. */
 .app {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
+.column {
+    width: 100%;
+    max-width: calc(var(--column) + 2 * var(--pad));
+    margin: 0 auto;
+    padding: 0 var(--pad);
+}
+
 .canvas {
     flex: 1;
-    width: 100%;
-    max-width: 1680px;
-    margin: 0 auto;
-    padding: 20px var(--pad) 0;
     display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: var(--gap);
     align-content: start;
+    padding-top: 8px;
 }
 
-.explorer {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 384px;
-    gap: var(--gap);
-    height: clamp(480px, calc(100vh - 340px), 760px);
-}
+.span-2 { grid-column: span 2; }
+.span-4 { grid-column: span 4; }
+.span-6 { grid-column: 1 / -1; }
 
 .panel {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-card);
     min-width: 0;
+    background: var(--surface);
+    border-radius: var(--radius-card);
 }
 
 .panel-header {
@@ -125,13 +133,13 @@ a {
     align-items: flex-start;
     justify-content: space-between;
     gap: 16px;
-    padding: 16px var(--card-pad) 12px;
+    padding: 18px var(--card-pad) 12px;
 }
 
 .panel-header h2 {
     font-size: var(--fs-section);
     line-height: 24px;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .panel-sub {
@@ -150,7 +158,7 @@ a {
     display: inline-flex;
     align-items: center;
     height: 20px;
-    padding: 0 6px;
+    padding: 0 7px;
     border-radius: var(--radius-chip);
     background: var(--pill-neutral-bg);
     color: var(--pill-neutral-ink);
@@ -165,11 +173,12 @@ a {
     align-items: center;
     gap: 8px;
     height: var(--control-height);
-    padding: 0 14px;
+    padding: 0 16px;
     border: 0;
     border-radius: var(--radius-control);
     font-size: var(--fs-body);
     font-weight: 500;
+    text-decoration: none;
     white-space: nowrap;
     cursor: pointer;
     transition: background-color 120ms var(--ease), transform 120ms var(--ease);
@@ -180,13 +189,24 @@ a {
     transform: scale(0.97);
 }
 
-.button-secondary {
-    background: #e5e5e5;
+/* the one primary action: inverted, a white pill with black text */
+.button-primary {
+    background: var(--text);
+    color: var(--ground);
+}
+
+.button-primary:hover {
+    background: #d9d9d9;
+}
+
+.button-outline {
+    border: 1px solid var(--control);
+    background: none;
     color: var(--text);
 }
 
-.button-secondary:hover {
-    background: #dadada;
+.button-outline:hover {
+    background: var(--active);
 }
 
 .icon-button {
@@ -196,28 +216,28 @@ a {
     height: 32px;
     border: 1px solid var(--control);
     border-radius: var(--radius-control);
-    background: var(--surface);
+    background: none;
     color: var(--text);
     cursor: pointer;
     transition: background-color 120ms var(--ease), transform 120ms var(--ease);
 }
 
 .icon-button:hover {
-    background: var(--raised);
+    background: var(--active);
 }
 
 .field {
     width: 100%;
     height: var(--control-height);
-    padding: 0 12px;
+    padding: 0 14px;
     border: 1px solid var(--control);
     border-radius: var(--radius-control);
-    background: var(--surface);
+    background: var(--ground);
     font-size: var(--fs-body);
 }
 
 .field::placeholder {
-    color: var(--muted);
+    color: var(--faint);
 }
 
 .field:focus {
@@ -233,21 +253,79 @@ a {
     border-radius: 50%;
 }
 
-.swatch-centre { background: var(--chart-1); }
-.swatch-long { background: var(--chart-3); }
-.swatch-short { background: var(--chart-2); }
+.swatch-centre { background: var(--text); }
+.swatch-long { background: var(--chart-1); }
+.swatch-short { background: var(--chart-3); }
 
 .empty-state {
     margin: 0 var(--card-pad) var(--card-pad);
-    padding: 10px 12px;
+    padding: 10px 14px;
     border: 1px dashed var(--control);
-    border-radius: var(--radius-card);
+    border-radius: var(--radius-panel);
     color: var(--muted);
 }
 
+/* underline tabs on a full-width 1px rule; the selected one is ink with a 2px ink rule */
+.view-tabs {
+    display: flex;
+    gap: 24px;
+    margin-top: 10px;
+    border-bottom: 1px solid var(--rule);
+}
+
+.view-tab {
+    position: relative;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--faint);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 120ms var(--ease);
+}
+
+.view-tab:hover {
+    color: var(--muted);
+}
+
+.view-tab[aria-selected="true"] {
+    color: var(--text);
+}
+
+.view-tab[aria-selected="true"]::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    background: var(--text);
+}
+
+.view {
+    display: grid;
+    grid-template-columns: subgrid;
+    gap: var(--gap);
+}
+
+.view[hidden] {
+    display: none;
+}
+
+/* the network and the teammate list share one row, as tall as the window allows */
+.explorer-cell {
+    height: clamp(480px, calc(100vh - 260px), 640px);
+}
+
 @media (max-width: 1100px) {
-    .explorer {
-        grid-template-columns: minmax(0, 1fr);
+    .span-4,
+    .span-2 {
+        grid-column: 1 / -1;
+    }
+
+    .explorer-cell {
         height: auto;
     }
 }
@@ -258,20 +336,18 @@ a {
         --card-pad: 16px;
     }
 
-    .canvas {
-        padding-top: 12px;
+    .panel-header {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .view-tab {
+        height: 44px;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
         transition-duration: 0ms !important;
-    }
-}
-
-@media (max-width: 640px) {
-    .panel-header {
-        flex-direction: column;
-        gap: 4px;
     }
 }

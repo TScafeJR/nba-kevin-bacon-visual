@@ -9,15 +9,19 @@ import { PlayerNetwork, TeammateLink } from '../types';
 
 // the canvas cannot read CSS custom properties, so these mirror the tokens in App.css
 const COLOURS = {
-    ink: '#0a0a0a',
-    muted: '#6b6b6b',
-    node: '#b5b5b5',
-    edge: '#e4e4e4',
-    hue: '#1d5fbf',
-    hueEdge: 'rgba(29, 95, 191, 0.32)',
-    surface: '#ffffff'
+    ink: '#ffffff',
+    muted: '#b4b4b4',
+    faint: '#949494',
+    node: '#5c5c5c',
+    edge: '#262626',
+    hue: '#ff7a2f',
+    hueEdge: 'rgba(255, 122, 47, 0.45)',
+    surface: '#111111'
 };
-const FONT = 'Geist, Inter, system-ui, sans-serif';
+const FONT = 'Inter, system-ui, sans-serif';
+// only the longest partnerships carry a name on the canvas; the rest show theirs on hover, so a
+// crowded franchise does not pile its labels on top of each other
+const LABELLED = 12;
 const FRANCHISE_PREFIX = 'franchise:';
 
 interface NetworkGraphProps {
@@ -46,7 +50,7 @@ const GRAPH_OPTIONS: Options = {
         borderWidthSelected: 0,
         font: {
             face: FONT,
-            size: 12,
+            size: 13,
             color: COLOURS.muted,
             strokeWidth: 4,
             strokeColor: COLOURS.surface
@@ -97,12 +101,13 @@ const buildGraph = (network: PlayerNetwork): Data => {
         }
     };
 
+    const labelled = new Set(network.teammates.slice(0, LABELLED).map(teammate => teammate.id));
     const teammates = points.map(({ teammate, x, y }) => {
         const long = teammate.seasonsTogether >= LONG_PARTNERSHIP_SEASONS;
         const fill = long ? COLOURS.hue : COLOURS.node;
         return {
             id: teammate.id,
-            label: teammate.name,
+            label: labelled.has(teammate.id) ? teammate.name : undefined,
             title: tooltipFor(teammate),
             x,
             y,
@@ -113,7 +118,7 @@ const buildGraph = (network: PlayerNetwork): Data => {
                 highlight: { background: COLOURS.ink, border: COLOURS.ink },
                 hover: { background: COLOURS.ink, border: COLOURS.ink }
             },
-            font: long ? { size: 21, color: COLOURS.ink } : undefined
+            font: long ? { size: 16, color: COLOURS.ink } : undefined
         };
     });
 
@@ -124,7 +129,7 @@ const buildGraph = (network: PlayerNetwork): Data => {
         y: label.y,
         shape: 'text',
         chosen: false,
-        font: { size: 22, color: COLOURS.muted, face: FONT, strokeWidth: 0 }
+        font: { size: 20, color: COLOURS.faint, face: FONT, strokeWidth: 0 }
     }));
 
     const edges = points.map(({ teammate }) => {
@@ -251,11 +256,11 @@ class NetworkGraph extends Component<NetworkGraphProps> {
         const empty = network.teammates.length === 0;
 
         return (
-            <section className="panel graph-panel" aria-labelledby="graph-title">
+            <section className="panel graph-panel explorer-cell span-4" aria-labelledby="graph-title">
                 <header className="panel-header">
                     <div>
                         <h2 id="graph-title">Teammate network</h2>
-                        <p className="panel-sub">Grouped by franchise; the closer to the centre, the more seasons together.</p>
+                        <p className="panel-sub">By franchise; nearer the centre, more seasons together.</p>
                     </div>
                     <div className="graph-tools">
                         {!empty && this.renderLegend()}

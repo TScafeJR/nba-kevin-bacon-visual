@@ -35,7 +35,7 @@ class TeammateList extends Component<TeammateListProps, TeammateListState> {
         const maxSeasons = Math.max(1, ...teammates.map(teammate => teammate.seasonsTogether));
 
         return (
-            <section className="panel teammates" aria-labelledby="teammates-title">
+            <section className="panel teammates explorer-cell span-2" aria-labelledby="teammates-title">
                 <header className="panel-header">
                     <h2 id="teammates-title">Teammates</h2>
                     <span className="panel-count num">

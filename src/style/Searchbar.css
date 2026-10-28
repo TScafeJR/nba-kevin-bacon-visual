@@ -18,6 +18,7 @@
     border: 1px solid var(--control);
     border-radius: var(--radius-control);
     background: var(--surface);
+    color: var(--text);
     font-size: var(--fs-body);
     -webkit-appearance: none;
     appearance: none;
@@ -28,7 +29,7 @@
 }
 
 .search-input::placeholder {
-    color: var(--muted);
+    color: var(--faint);
 }
 
 .search-input:focus {
@@ -45,9 +46,9 @@
     place-items: center;
     width: 20px;
     height: 20px;
-    border: 1px solid var(--border);
+    border: 1px solid var(--control);
     border-radius: var(--radius-chip);
-    color: var(--muted);
+    color: var(--faint);
     font-family: var(--font);
     font-size: var(--fs-small);
 }
@@ -64,10 +65,9 @@
     left: 0;
     right: 0;
     padding: 4px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-card);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); /* taste-skill-ignore: a floating menu */
+    background: var(--raised);
+    border-radius: var(--radius-panel);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5); /* taste-skill-ignore: a floating menu */
 }
 
 .search-empty {
@@ -81,12 +81,12 @@
     gap: 8px;
     height: 36px;
     padding: 0 8px;
-    border-radius: var(--radius-control);
+    border-radius: 10px;
     cursor: pointer;
 }
 
 .search-suggestions li.is-active {
-    background: var(--raised);
+    background: var(--control);
 }
 
 .suggestion-name {

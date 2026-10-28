@@ -15,6 +15,7 @@ export interface NetworkQuery {
     team: string | null;
     sort: CentralitySort;
     limit: number | null;
+    focus: string | null;
 }
 
 interface ScoredNetwork {
@@ -63,7 +64,7 @@ export class NetworkService {
     }
 
     async network(query: NetworkQuery): Promise<NetworkResponse> {
-        const { startYear, endYear, team, sort, limit } = query;
+        const { startYear, endYear, team, sort, limit, focus } = query;
         const { nodes, edgeCount } = await this.scored(startYear, endYear, team);
         const rankOf = (node: CentralityNode): number => {
             return sort === 'degree' ? node.degreeRank : node.betweennessRank;
@@ -76,7 +77,8 @@ export class NetworkService {
             sort,
             nodeCount: nodes.length,
             edgeCount,
-            nodes: limit ? sorted.slice(0, limit) : sorted
+            nodes: limit ? sorted.slice(0, limit) : sorted,
+            focus: focus ? nodes.find(node => node.id === focus) ?? null : null
         };
     }
 

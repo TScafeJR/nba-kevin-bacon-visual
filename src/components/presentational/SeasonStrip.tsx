@@ -89,7 +89,7 @@ class SeasonStrip extends Component<SeasonStripProps, SeasonStripState> {
         const shared = new Set(highlight ? highlight.sharedTeamKeys : []);
 
         return (
-            <section className="panel strip" aria-labelledby="strip-title">
+            <section className="panel strip span-6" aria-labelledby="strip-title">
                 <header className="panel-header">
                     <h2 id="strip-title">Teammates by season</h2>
                     {this.renderNote()}

@@ -60,7 +60,7 @@ class PlayerProfileCard extends Component<PlayerProfileCardProps> {
                     </div>
                 </dl>
 
-                <button type="button" className="button button-secondary profile-open" onClick={() => onOpenNetwork(node.id)}>
+                <button type="button" className="button button-outline profile-open" onClick={() => onOpenNetwork(node.id)}>
                     Open {firstName}’s network
                     <ArrowRight size={15} strokeWidth={1.75} aria-hidden="true" />
                 </button>

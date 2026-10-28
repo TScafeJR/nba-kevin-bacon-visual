@@ -83,6 +83,19 @@ describe('API', () => {
             expect(body.nodes.map(node => node.id)).toEqual(['c', 'a']);
         });
 
+        it('returns the focus player wherever they rank, even past the limit', async() => {
+            const { body } = await api.get<NetworkResponse>('/api/network?startYear=1985&endYear=1987&sort=degree&limit=1&focus=d');
+            expect(body.nodes.map(node => node.id)).toEqual(['c']);
+            expect(body.focus).toMatchObject({ id: 'd', degree: 1, degreeRank: 4 });
+        });
+
+        it('has no focus player when they did not play in the range', async() => {
+            const { body } = await api.get<NetworkResponse>('/api/network?startYear=1985&endYear=1987&focus=e');
+            expect(body.focus).toBeNull();
+            const unfocused = await api.get<NetworkResponse>('/api/network?startYear=1985&endYear=1987');
+            expect(unfocused.body.focus).toBeNull();
+        });
+
         it('defaults to every season in the data', async() => {
             const { body } = await api.get<NetworkResponse>('/api/network');
             expect(body).toMatchObject({ startYear: 1985, endYear: 1990, nodeCount: 5 });
@@ -96,6 +109,7 @@ describe('API', () => {
                 ['team=NYK', 'No team with the code "NYK"'],
                 ['sort=fame', 'sort must be one of betweenness, degree'],
                 ['limit=0', 'limit must be a positive whole number'],
+                ['focus=../etc', 'focus must be a Basketball-Reference player id, such as jamesle01'],
                 ['team=BOS&team=LAL', 'team must be given once']
             ];
             for (const [query, error] of cases) {

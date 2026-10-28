@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Component } from 'react';
+import React, { ChangeEvent, Component, Fragment } from 'react';
 import PlayerProfileCard from './presentational/PlayerProfileCard';
 import TemporalSlider, { YearRange } from './presentational/TemporalSlider';
 import { formatShare } from '../data/graph-methods/player-stats-methods';
@@ -42,8 +42,8 @@ interface EraNetworkState {
     activeId: string | null;
 }
 
-// two columns of six beside the profile card, which is about as tall
-const LEADERS = 12;
+// two columns of five beside the profile card, which is about as tall
+const LEADERS = 10;
 // the slider moves a season at a time, so wait for it to settle before scoring a range
 const DEBOUNCE_MS = 250;
 const SLOW_MS = 1200;
@@ -108,7 +108,9 @@ class EraNetwork extends Component<EraNetworkProps, EraNetworkState> {
 
     componentDidUpdate(prevProps: EraNetworkProps, prevState: EraNetworkState) {
         const { range, team, sort } = this.state;
-        if (range !== prevState.range || team !== prevState.team || sort !== prevState.sort) {
+        // a new player on screen changes the focus tile even when the range stays put
+        const newPlayer = prevProps.player.id !== this.props.player.id;
+        if (newPlayer || range !== prevState.range || team !== prevState.team || sort !== prevState.sort) {
             this.scheduleLoad();
         }
     }
@@ -135,7 +137,7 @@ class EraNetwork extends Component<EraNetworkProps, EraNetworkState> {
         this.setState(() => ({ status: 'loading', slow: false }));
 
         const range = new URLSearchParams({ startYear: String(startYear), endYear: String(endYear) });
-        const query = new URLSearchParams({ ...Object.fromEntries(range), sort, limit: String(LEADERS) });
+        const query = new URLSearchParams({ ...Object.fromEntries(range), sort, limit: String(LEADERS), focus: this.props.player.id });
         if (team) {
             query.set('team', team);
         }
@@ -198,19 +200,16 @@ class EraNetwork extends Component<EraNetworkProps, EraNetworkState> {
         }));
     }
 
+    // the live region says what is loading; a finished load speaks through the tiles below
     renderStatus() {
-        const { range: [startYear, endYear], team, status, slow, network } = this.state;
-        if (status === 'loading') {
-            const era = formatEra(startYear, endYear, team || null);
-            return slow
-                ? `Scoring ${era}. Long ranges take a few seconds: every shortest path between players counts.`
-                : `Scoring ${era}…`;
+        const { range: [startYear, endYear], team, status, slow } = this.state;
+        if (status !== 'loading') {
+            return '';
         }
-        if (status === 'ready' && network) {
-            const era = formatEra(network.startYear, network.endYear, network.team);
-            return `${network.nodeCount.toLocaleString('en')} players and ${network.edgeCount.toLocaleString('en')} teammate pairs in ${era}.`;
-        }
-        return '';
+        const era = formatEra(startYear, endYear, team || null);
+        return slow
+            ? `Scoring ${era}. Long ranges take a few seconds: every shortest path between players counts.`
+            : `Scoring ${era}…`;
     }
 
     renderRow(node: CentralityNode, top: number, activeId: string | null) {
@@ -254,35 +253,112 @@ class EraNetwork extends Component<EraNetworkProps, EraNetworkState> {
         );
     }
 
+    // the three tiles: how big the era's network is, and where the player on screen stands in it
+    renderKpis() {
+        const { player } = this.props;
+        const { network, sort } = this.state;
+        const loading = <span className="kpi-loading" aria-label="Loading" />;
+        const focus = network?.focus ?? null;
+        const rankOf = (node: CentralityNode) => sort === 'degree' ? node.degreeRank : node.betweennessRank;
+        const era = network ? formatEra(network.startYear, network.endYear, network.team) : '';
+
+        return (
+            <Fragment>
+                <dl className="panel kpi span-2">
+                    <dt>Players</dt>
+                    <dd className="kpi-value num">{network ? network.nodeCount.toLocaleString('en') : loading}</dd>
+                    <dd className="kpi-sub">{network ? `played in ${era}` : ' '}</dd>
+                </dl>
+                <dl className="panel kpi span-2">
+                    <dt>Teammate pairs</dt>
+                    <dd className="kpi-value num">{network ? network.edgeCount.toLocaleString('en') : loading}</dd>
+                    <dd className="kpi-sub">
+                        {network && network.nodeCount > 1
+                            ? `${(network.edgeCount / network.nodeCount * 2).toFixed(1)} teammates each, on average`
+                            : ' '}
+                    </dd>
+                </dl>
+                <dl className="panel kpi is-finding span-2">
+                    <dt>{player.name}</dt>
+                    {!network && <dd className="kpi-value">{loading}</dd>}
+                    {network && focus &&
+                        <Fragment>
+                            <dd className="kpi-value num">
+                                #{rankOf(focus).toLocaleString('en')}
+                                <span className="kpi-unit">of {network.nodeCount.toLocaleString('en')}</span>
+                            </dd>
+                            <dd className="kpi-sub num">
+                                {sort === 'degree'
+                                    ? `${focus.degree} teammates · ${formatShare(focus.betweenness)} bridging`
+                                    : `${formatShare(focus.betweenness)} bridging · ${focus.degree} teammates`}
+                            </dd>
+                        </Fragment>
+                    }
+                    {network && !focus &&
+                        <Fragment>
+                            <dd className="kpi-value is-missing">—</dd>
+                            <dd className="kpi-sub">Did not play in {era}</dd>
+                        </Fragment>
+                    }
+                </dl>
+            </Fragment>
+        );
+    }
+
     renderBody() {
         const { photos } = this.props;
         const { status, network, activeId, sort } = this.state;
         if (status === 'error') {
             return (
-                <div className="empty-state era-message">
+                <div className="panel era-message span-6">
                     Couldn’t score this era.
                     <button type="button" className="era-retry" onClick={this.load}>Try again</button>
                 </div>
             );
         }
         if (!network) {
-            return null;
+            return (
+                <section className="panel era-ranking span-4" aria-busy="true" aria-label="Loading the ranking">
+                    <ol className="era-list">
+                        {Array.from({ length: LEADERS }, (_, index) =>
+                            <li key={index} className="era-row is-placeholder">
+                                <span className="kpi-loading is-small" />
+                            </li>
+                        )}
+                    </ol>
+                </section>
+            );
         }
 
         const era = formatEra(network.startYear, network.endYear, network.team);
         if (network.nodes.length === 0) {
-            return <p className="empty-state era-message">Nobody played for {network.team} in {era.replace(`${network.team}, `, '')}.</p>;
+            return (
+                <p className="panel era-message span-6">
+                    Nobody played for {network.team} in {era.replace(`${network.team}, `, '')}.
+                </p>
+            );
         }
 
         const active = network.nodes.find(node => node.id === activeId) ?? network.nodes[0];
         const [leader] = network.nodes;
         const top = sort === 'degree' ? leader.degree : leader.betweenness;
+        const stale = status === 'loading';
         return (
-            <div className={status === 'loading' ? 'era-body is-stale' : 'era-body'} aria-busy={status === 'loading'}>
-                <ol className="era-list" aria-label={`Most connected players, ${era}`}>
-                    {network.nodes.map(node => this.renderRow(node, top, active.id))}
-                </ol>
-                <div id="era-profile" className="era-profile">
+            <Fragment>
+                <section
+                    className={stale ? 'panel era-ranking span-4 is-stale' : 'panel era-ranking span-4'}
+                    aria-labelledby="era-ranking-title"
+                    aria-busy={stale}
+                >
+                    <header className="panel-header">
+                        <h3 id="era-ranking-title">Top {network.nodes.length} by {sort === 'degree' ? 'teammates' : 'bridging'}</h3>
+                        <span className="panel-count">{era}</span>
+                    </header>
+                    <ol className="era-list" aria-label={`Most connected players, ${era}`}>
+                        {network.nodes.map(node => this.renderRow(node, top, active.id))}
+                    </ol>
+                </section>
+                <div id="era-profile" className={stale ? 'era-profile span-2 is-stale' : 'era-profile span-2'}>
                     <PlayerProfileCard
                         node={active}
                         nodeCount={network.nodeCount}
@@ -291,34 +367,27 @@ class EraNetwork extends Component<EraNetworkProps, EraNetworkState> {
                         onOpenNetwork={this.openNetwork}
                     />
                 </div>
-            </div>
+            </Fragment>
         );
     }
 
     render() {
         const { player, minYear, maxYear } = this.props;
-        const { range, team, sort, followPlayer, teams } = this.state;
+        const { range: [startYear, endYear], team, sort, followPlayer, teams } = this.state;
         // the chosen team stays on the list even for a range it did not play in
         const teamOptions = team && !teams.includes(team) ? [...teams, team].sort() : teams;
 
         return (
-            <section className="panel era" aria-labelledby="era-title">
-                <header className="panel-header">
-                    <div>
-                        <h2 id="era-title">Most connected by era</h2>
-                        <p className="panel-sub">
-                            Who tied the league together: ranked by the teammate paths they bridge, or by how many teammates they had.
-                        </p>
-                    </div>
-                    {!followPlayer &&
-                        <button type="button" className="button button-secondary era-match" onClick={this.matchCareer}>
-                            Match {player.name}’s career
-                        </button>
-                    }
+            <Fragment>
+                <header className="era-head span-6">
+                    <h2 id="era-title">Most connected, {formatEra(startYear, endYear, team || null)}</h2>
+                    <p className="panel-sub">
+                        Bridging is betweenness centrality: the share of shortest teammate paths between other players that run through someone.
+                    </p>
                 </header>
 
-                <div className="era-controls">
-                    <TemporalSlider label="Seasons" min={minYear} max={maxYear} value={range} onChange={this.onRangeChange} />
+                <div className="era-controls span-6">
+                    <TemporalSlider label="Seasons" min={minYear} max={maxYear} value={[startYear, endYear]} onChange={this.onRangeChange} />
                     <label className="era-field">
                         <span className="era-field-label">Team</span>
                         <select className="field" value={team} onChange={this.onTeamChange}>
@@ -342,11 +411,17 @@ class EraNetwork extends Component<EraNetworkProps, EraNetworkState> {
                             )}
                         </div>
                     </div>
+                    {!followPlayer &&
+                        <button type="button" className="era-retry era-match" onClick={this.matchCareer}>
+                            Match {player.name}’s career
+                        </button>
+                    }
                 </div>
 
-                <p className="panel-sub era-status" role="status">{this.renderStatus()}</p>
+                <p className="panel-sub era-status span-6" role="status">{this.renderStatus()}</p>
+                {this.renderKpis()}
                 {this.renderBody()}
-            </section>
+            </Fragment>
         );
     }
 }

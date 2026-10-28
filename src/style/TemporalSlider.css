@@ -45,7 +45,7 @@
     height: 4px;
     margin-top: -2px;
     border-radius: 2px;
-    background: var(--control);
+    background: var(--raised);
 }
 
 .slider-fill {
@@ -91,9 +91,9 @@
     width: var(--thumb);
     height: var(--thumb);
     margin-top: calc((var(--slider-height) - var(--thumb)) / 2);
-    border: 2px solid var(--text);
+    border: 0;
     border-radius: 50%;
-    background: var(--surface);
+    background: var(--text);
     cursor: grab;
     pointer-events: auto;
     transition: transform 120ms var(--ease);
@@ -103,9 +103,9 @@
     box-sizing: border-box;
     width: var(--thumb);
     height: var(--thumb);
-    border: 2px solid var(--text);
+    border: 0;
     border-radius: 50%;
-    background: var(--surface);
+    background: var(--text);
     cursor: grab;
     pointer-events: auto;
     transition: transform 120ms var(--ease);
@@ -122,11 +122,13 @@
 }
 
 .slider-input:focus-visible::-webkit-slider-thumb {
-    box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--text);
+    outline: 2px solid var(--text);
+    outline-offset: 3px;
 }
 
 .slider-input:focus-visible::-moz-range-thumb {
-    box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--text);
+    outline: 2px solid var(--text);
+    outline-offset: 3px;
 }
 
 .slider-scale {

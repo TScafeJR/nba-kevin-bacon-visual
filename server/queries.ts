@@ -61,11 +61,12 @@ export const parseNetworkQuery = (query: QueryString, index: TemporalIndex): Par
     const team = single(query, 'team');
     const sort = single(query, 'sort');
     const limit = single(query, 'limit');
+    const focus = single(query, 'focus');
     if (!range.ok) {
         return range;
     }
-    if (!team.ok || !sort.ok || !limit.ok) {
-        return [team, sort, limit].find(parsed => !parsed.ok) as Parsed<never>;
+    if (!team.ok || !sort.ok || !limit.ok || !focus.ok) {
+        return [team, sort, limit, focus].find(parsed => !parsed.ok) as Parsed<never>;
     }
 
     const teamCode = team.value?.toUpperCase();
@@ -79,6 +80,9 @@ export const parseNetworkQuery = (query: QueryString, index: TemporalIndex): Par
     if (limit.value && (!/^\d+$/.test(limit.value) || count < 1)) {
         return { ok: false, error: 'limit must be a positive whole number' };
     }
+    if (focus.value && !/^[a-z0-9]{1,12}$/.test(focus.value)) {
+        return { ok: false, error: 'focus must be a Basketball-Reference player id, such as jamesle01' };
+    }
 
     return {
         ok: true,
@@ -86,7 +90,8 @@ export const parseNetworkQuery = (query: QueryString, index: TemporalIndex): Par
             ...range.value,
             team: teamCode ?? null,
             sort: (sort.value as CentralitySort | undefined) ?? 'betweenness',
-            limit: limit.value ? count : null
+            limit: limit.value ? count : null,
+            focus: focus.value ?? null
         }
     };
 };

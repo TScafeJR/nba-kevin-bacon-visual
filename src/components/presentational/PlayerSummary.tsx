@@ -1,22 +1,18 @@
-import React, { Component } from 'react';
-import { ArrowUpRight, ChevronRight } from 'lucide-react';
+import React, { Component, Fragment } from 'react';
+import { ArrowUpRight } from 'lucide-react';
 import PlayerAvatar from './PlayerAvatar';
 import { formatYearSpan } from '../../data/graph-methods/player-network-methods';
 import { formatPct, formatPerGame } from '../../data/graph-methods/player-stats-methods';
 import { PlayerNetwork, PlayerPhoto, StatLine } from '../../types';
 import '../../style/PlayerSummary.css';
 
-interface TrailStop {
-    id: string;
-    name: string;
-}
-
 interface PlayerSummaryProps {
     network: PlayerNetwork;
-    trail: TrailStop[];
     photo: PlayerPhoto | null;
+    // null while the box scores load, and for a player without any
     career: StatLine | null;
-    onSelectPlayer: (playerId: string) => void;
+    // false until the box scores have arrived, so the career tile can hold its place
+    statsLoaded: boolean;
 }
 
 const plural = (count: number, noun: string): string => `${count} ${noun}${count === 1 ? '' : 's'}`;
@@ -35,6 +31,8 @@ const describeFinding = (network: PlayerNetwork): string => {
     return `Longest partnership: ${names}, ${longest.seasonsTogether} seasons together.`;
 };
 
+// The header card is the player, and the three tiles under it answer the next questions: how many
+// teammates (the screen's answer, so it leads), over how long, and how good a player.
 class PlayerSummary extends Component<PlayerSummaryProps> {
     renderMeta() {
         const { player } = this.props.network;
@@ -47,30 +45,6 @@ class PlayerSummary extends Component<PlayerSummaryProps> {
             formatYearSpan(Number(player.career_start), Number(player.career_end))
         ].filter(Boolean);
         return parts.join(' · ');
-    }
-
-    renderCareer() {
-        const { career } = this.props;
-        if (!career) {
-            return null;
-        }
-        const figures = [
-            { label: 'Games', value: career.games.toLocaleString('en') },
-            { label: 'PPG', value: formatPerGame(career.points) },
-            { label: 'RPG', value: formatPerGame(career.rebounds) },
-            { label: 'APG', value: formatPerGame(career.assists) },
-            { label: 'FG%', value: formatPct(career.fieldGoalPct) }
-        ];
-        return (
-            <dl className="summary-career" title="Career, per game">
-                {figures.map(figure =>
-                    <div key={figure.label}>
-                        <dt>{figure.label}</dt>
-                        <dd className="num">{figure.value}</dd>
-                    </div>
-                )}
-            </dl>
-        );
     }
 
     renderCredit() {
@@ -86,78 +60,87 @@ class PlayerSummary extends Component<PlayerSummaryProps> {
         );
     }
 
-    renderTrail() {
-        const { trail, onSelectPlayer } = this.props;
-        const degrees = trail.length - 1;
+    renderCareer() {
+        const { career, statsLoaded } = this.props;
+        if (!statsLoaded) {
+            return (
+                <Fragment>
+                    <dd className="kpi-value"><span className="kpi-loading" aria-label="Loading career numbers" /></dd>
+                    <dd className="kpi-sub"><span className="kpi-loading is-small" /></dd>
+                </Fragment>
+            );
+        }
+        if (!career) {
+            return <dd className="kpi-sub">No box scores on record.</dd>;
+        }
+        const figures = [
+            { unit: 'ppg', value: formatPerGame(career.points) },
+            { unit: 'rpg', value: formatPerGame(career.rebounds) },
+            { unit: 'apg', value: formatPerGame(career.assists) }
+        ];
         return (
-            <nav className="trail" aria-label="Path between players">
-                <ol>
-                    {trail.map((stop, index) => {
-                        const current = index === trail.length - 1;
-                        return (
-                            <li key={stop.id}>
-                                {index > 0 && <ChevronRight className="trail-sep" size={14} strokeWidth={1.75} aria-hidden="true" />}
-                                {current
-                                    ? <span className="trail-stop is-current" aria-current="page">{stop.name}</span>
-                                    : <button type="button" className="trail-stop" onClick={() => onSelectPlayer(stop.id)}>{stop.name}</button>}
-                            </li>
-                        );
-                    })}
-                </ol>
-                <span className="trail-count">
-                    {degrees === 0
-                        ? 'Click a teammate to hop to their network'
-                        : `${plural(degrees, 'degree')} from ${trail[0].name}`}
-                </span>
-            </nav>
+            <Fragment>
+                <dd className="kpi-value kpi-line num">
+                    {figures.map(figure =>
+                        <span key={figure.unit}>{figure.value}<span className="kpi-unit">{figure.unit}</span></span>
+                    )}
+                </dd>
+                <dd className="kpi-sub num">
+                    {career.games.toLocaleString('en')} game{career.games === 1 ? '' : 's'} · {formatPct(career.fieldGoalPct)} from the field
+                </dd>
+            </Fragment>
         );
     }
 
     render() {
-        const { network } = this.props;
+        const { network, photo } = this.props;
         const { player } = network;
-        const figures = [
-            { label: 'Teammates', value: network.teammates.length, lead: true },
-            { label: 'Seasons', value: network.seasonCount },
-            { label: 'Franchises', value: network.franchises.length },
-            { label: 'Hall of Fame teammates', value: network.hofTeammateCount }
-        ];
+        const hofTeammates = network.hofTeammateCount;
 
         return (
-            <section className="panel summary" aria-labelledby="player-name">
-                <div className="summary-identity">
-                    <PlayerAvatar name={network.name} photo={this.props.photo} className="summary-photo" />
+            <Fragment>
+                <section className="panel summary span-6" aria-labelledby="player-name">
+                    <PlayerAvatar name={network.name} photo={photo} className="summary-photo" />
                     <div className="summary-details">
                         <div className="summary-title">
                             <h1 id="player-name">{network.name}</h1>
                             {network.isHOFer && <span className="pill">Hall of Fame</span>}
                         </div>
-                        <p className="summary-meta">
-                            {this.renderMeta()}
-                            <a
-                                className="summary-link"
-                                href={`https://www.basketball-reference.com/players/${player.bref_letter}/${player.bref_id}.html`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                Basketball-Reference<ArrowUpRight size={13} strokeWidth={1.75} aria-hidden="true" />
-                            </a>
-                        </p>
-                        {this.renderCareer()}
+                        <p className="summary-meta">{this.renderMeta()}</p>
                         <p className="summary-finding">{describeFinding(network)}</p>
                         {this.renderCredit()}
                     </div>
-                </div>
-                <dl className="summary-figures">
-                    {figures.map(figure => 
-                        <div key={figure.label} className={figure.lead ? 'figure is-lead' : 'figure'}>
-                            <dt>{figure.label}</dt>
-                            <dd className="num">{figure.value.toLocaleString('en')}</dd>
-                        </div>
-                    )}
+                    <a
+                        className="button button-outline summary-link"
+                        href={`https://www.basketball-reference.com/players/${player.bref_letter}/${player.bref_id}.html`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Basketball-Reference
+                        <ArrowUpRight size={15} strokeWidth={1.75} aria-hidden="true" />
+                    </a>
+                </section>
+
+                <dl className="panel kpi is-lead span-2">
+                    <dt>Teammates</dt>
+                    <dd className="kpi-value num">{network.teammates.length.toLocaleString('en')}</dd>
+                    <dd className="kpi-sub">
+                        {hofTeammates === 0 ? 'None in the Hall of Fame' : `${plural(hofTeammates, 'Hall of Famer')} among them`}
+                    </dd>
                 </dl>
-                {this.renderTrail()}
-            </section>
+                <dl className="panel kpi span-2">
+                    <dt>Seasons</dt>
+                    <dd className="kpi-value num">{network.seasonCount}</dd>
+                    <dd className="kpi-sub">
+                        {network.franchises.length === 1 ? 'All with ' : `${network.franchises.length} franchises: `}
+                        {network.franchises.join(', ')}
+                    </dd>
+                </dl>
+                <dl className="panel kpi kpi-career span-2">
+                    <dt>Career, per game</dt>
+                    {this.renderCareer()}
+                </dl>
+            </Fragment>
         );
     }
 }

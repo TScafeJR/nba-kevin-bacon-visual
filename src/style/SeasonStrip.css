@@ -31,7 +31,7 @@
     position: relative;
     height: 0;
     margin-left: 36px;
-    border-top: 1px solid #ebebeb;
+    border-top: 1px solid var(--grid);
 }
 
 .strip-gridline:last-child {
@@ -74,16 +74,16 @@
     width: 100%;
     max-width: 44px;
     margin: 0 auto;
-    background: var(--chart-1);
+    background: var(--chart-3);
     transition: background-color 120ms var(--ease);
 }
 
 .strip-bar.is-shared {
-    background: var(--chart-3);
+    background: var(--chart-1);
 }
 
 .strip-bar.is-dimmed {
-    background: #dedede;
+    background: var(--raised);
 }
 
 /* hovering a season fades the rest, so the bar whose numbers the note shows stands out */
@@ -136,6 +136,11 @@
 
     .strip-year {
         font-size: 11px;
+    }
+
+    /* every fourth season, so neighbouring years never touch at a phone's width */
+    .strip-col:not(:nth-child(4n + 1)) .strip-year {
+        visibility: hidden;
     }
 
     .strip-team {

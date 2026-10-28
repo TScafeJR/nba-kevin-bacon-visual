@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { fn } from 'storybook/test';
+import { expect, fn } from 'storybook/test';
 import PlayerProfileCard from '../components/presentational/PlayerProfileCard';
 
 const meta = {
@@ -41,7 +41,13 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const HallOfFamer: Story = {};
+export const HallOfFamer: Story = {
+    play: async({ args, canvas, userEvent }) => {
+        await expect(canvas.getByText('#2 of 5,416')).toBeVisible();
+        await userEvent.click(canvas.getByRole('button', { name: /Open Moses’s network/ }));
+        await expect(args.onOpenNetwork).toHaveBeenCalledWith('malonmo01');
+    }
+};
 
 // most players before 1980 have no free photo, so their initials stand in
 export const WithoutPhoto: Story = {

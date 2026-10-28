@@ -14,7 +14,7 @@
     padding: 8px var(--card-pad);
     color: var(--muted);
     font-size: var(--fs-small);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--rule);
 }
 
 .teammates-list {
@@ -35,7 +35,7 @@
     width: 100%;
     padding: 9px 12px 10px;
     border: 0;
-    border-radius: var(--radius-control);
+    border-radius: 12px;
     background: none;
     text-align: left;
     cursor: pointer;
@@ -85,11 +85,11 @@
 .teammate-bar span {
     display: block;
     height: 100%;
-    background: var(--chart-2);
+    background: var(--chart-3);
 }
 
 .teammate-bar span.is-long {
-    background: var(--chart-3);
+    background: var(--chart-1);
 }
 
 .teammates .empty-state {

@@ -124,6 +124,8 @@ export interface NetworkResponse {
     nodeCount: number;
     edgeCount: number;
     nodes: CentralityNode[];
+    // the player named by ?focus=, wherever they rank, or null when they did not play in the range
+    focus: CentralityNode | null;
 }
 
 export interface TeamsResponse {
