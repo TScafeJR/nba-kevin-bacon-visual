@@ -137,33 +137,3 @@ export interface TeamsResponse {
 export type SearchChangeEvent = ChangeEvent<
     HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
 >;
-
-// Shapes of the raw jsonpickle export in src/data/output.json
-interface PySet<T> {
-    'py/set': T[];
-}
-
-export interface RawSeasonEntry {
-    'py/object': string;
-    'season_year': string;
-    'team_id': string;
-    'league_id': string;
-}
-
-export interface RawPlayer {
-    'py/object': string;
-    'career_start': string;
-    'career_end': string;
-    'position': string;
-    'height': string;
-    'weight': string;
-    'birth_date': string;
-    'colleges': string;
-    'name': string;
-    'bref_id': string;
-    'bref_letter': string;
-    'teams': RawSeasonEntry[];
-    'team_id_set': PySet<string>;
-    'teammates': PySet<string>;
-    'seasons': Array<{ 'py/id': number }>;
-}
