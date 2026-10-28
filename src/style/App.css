@@ -1,23 +1,277 @@
-#root {
-    margin: 1rem;
-    font-family: Arial, Helvetica, sans-serif;
+/* Achromatic ledger: the chrome is ink on a stone ground; the one hue (--chart-3) marks
+   long partnerships in the graph, the list and the season strip, and nothing else. */
+:root {
+    --ground: #f4f3f1;
+    --surface: #ffffff;
+    --raised: #eeeeee;
+    --border: #e6e6e6;
+    --rule: #f0f0f0;
+    --control: #d4d4d4;
+    --text: #0a0a0a;
+    --muted: #6b6b6b;
+    --accent: #141414;
+    --chart-1: #141414;
+    --chart-2: #b5b5b5;
+    --chart-3: #1d5fbf;
+    --pill-neutral-bg: #eeeeee;
+    --pill-neutral-ink: #3d3d3d;
+
+    --radius-card: 8px;
+    --radius-control: 6px;
+    --radius-chip: 4px;
+    --gap: 12px;
+    --pad: 32px;
+    --card-pad: 20px;
+    --control-height: 36px;
+    --row-height: 44px;
+
+    --font: "Geist", Inter, system-ui, sans-serif;
+    --fs-title: 24px;
+    --fs-section: 16px;
+    --fs-kpi: 30px;
+    --fs-figure: 22px;
+    --fs-body: 14px;
+    --fs-small: 12px;
+
+    --ease: cubic-bezier(0.2, 0, 0, 1);
 }
 
-h1 {
-    text-align:center;
-    padding: 5px;
+*, *::before, *::after {
+    box-sizing: border-box;
 }
 
-h2 {
-    text-align:center;
-    padding: 5px;
+html {
+    -webkit-text-size-adjust: 100%;
 }
 
-.app-txt {
-    padding: 5px;
+body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: var(--fs-body);
+    line-height: 20px;
+    -webkit-font-smoothing: antialiased;
 }
 
-.centered {
-    display: block;
+h1, h2, p, ul, ol, dl, dd {
+    margin: 0;
+}
+
+ul, ol {
+    padding: 0;
+    list-style: none;
+}
+
+button, input, select {
+    font: inherit;
+    color: inherit;
+}
+
+a {
+    color: inherit;
+}
+
+:focus-visible {
+    outline: 2px solid var(--text);
+    outline-offset: 2px;
+}
+
+::selection {
+    background: var(--text);
+    color: var(--surface);
+}
+
+.num {
+    font-variant-numeric: tabular-nums;
+}
+
+/* Grid: one 12px gutter both ways. At 1440 the canvas is 1440 - 2 x 32 = 1376 wide;
+   the explorer row is (1376 - 12 - 384) = 980 for the graph + 12 + 384 for the list,
+   so every panel lands on the same two edges. */
+.app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.canvas {
+    flex: 1;
+    width: 100%;
+    max-width: 1680px;
     margin: 0 auto;
+    padding: 20px var(--pad) 0;
+    display: grid;
+    gap: var(--gap);
+    align-content: start;
+}
+
+.explorer {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 384px;
+    gap: var(--gap);
+    height: clamp(480px, calc(100vh - 340px), 760px);
+}
+
+.panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    min-width: 0;
+}
+
+.panel-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px var(--card-pad) 12px;
+}
+
+.panel-header h2 {
+    font-size: var(--fs-section);
+    line-height: 24px;
+    font-weight: 500;
+}
+
+.panel-sub {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 18px;
+}
+
+.panel-count {
+    color: var(--muted);
+    line-height: 24px;
+}
+
+.pill {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: var(--radius-chip);
+    background: var(--pill-neutral-bg);
+    color: var(--pill-neutral-ink);
+    font-size: var(--fs-small);
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: var(--control-height);
+    padding: 0 14px;
+    border: 0;
+    border-radius: var(--radius-control);
+    font-size: var(--fs-body);
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 120ms var(--ease), transform 120ms var(--ease);
+}
+
+.button:active,
+.icon-button:active {
+    transform: scale(0.97);
+}
+
+.button-secondary {
+    background: #e5e5e5;
+    color: var(--text);
+}
+
+.button-secondary:hover {
+    background: #dadada;
+}
+
+.icon-button {
+    display: inline-grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--control);
+    border-radius: var(--radius-control);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    transition: background-color 120ms var(--ease), transform 120ms var(--ease);
+}
+
+.icon-button:hover {
+    background: var(--raised);
+}
+
+.field {
+    width: 100%;
+    height: var(--control-height);
+    padding: 0 12px;
+    border: 1px solid var(--control);
+    border-radius: var(--radius-control);
+    background: var(--surface);
+    font-size: var(--fs-body);
+}
+
+.field::placeholder {
+    color: var(--muted);
+}
+
+.field:focus {
+    outline: none;
+    border-color: var(--text);
+}
+
+.swatch {
+    flex: none;
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.swatch-centre { background: var(--chart-1); }
+.swatch-long { background: var(--chart-3); }
+.swatch-short { background: var(--chart-2); }
+
+.empty-state {
+    margin: 0 var(--card-pad) var(--card-pad);
+    padding: 10px 12px;
+    border: 1px dashed var(--control);
+    border-radius: var(--radius-card);
+    color: var(--muted);
+}
+
+@media (max-width: 1100px) {
+    .explorer {
+        grid-template-columns: minmax(0, 1fr);
+        height: auto;
+    }
+}
+
+@media (max-width: 640px) {
+    :root {
+        --pad: 16px;
+        --card-pad: 16px;
+    }
+
+    .canvas {
+        padding-top: 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        transition-duration: 0ms !important;
+    }
+}
+
+@media (max-width: 640px) {
+    .panel-header {
+        flex-direction: column;
+        gap: 4px;
+    }
 }

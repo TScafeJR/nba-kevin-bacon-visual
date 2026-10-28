@@ -1,24 +1,17 @@
-import React, { ComponentProps } from 'react';
-import { Meta, Story } from '@storybook/react/types-6-0';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { fn } from 'storybook/test';
 
 import Searchbar from '../components/Searchbar';
 
-export default {
+const meta = {
     title: 'Components/Searchbar',
     component: Searchbar
-} as Meta;
+} satisfies Meta<typeof Searchbar>;
 
-const Template: Story<ComponentProps<typeof Searchbar>> = args => <Searchbar {...args}/>;
+export default meta;
 
-export const BasicSearch = Template.bind({});
-
-BasicSearch.args = {
-    startingInfo: {
-        centralPlayer: {
-            id: 'tscafe01',
-            label: 'Tyrone Scafe'
-        }
-    },
-    displayPlayer: 'Tyrone Scafe',
-    handleSearchChange: () => {}
+export const BasicSearch: StoryObj<typeof meta> = {
+    args: {
+        onSelectPlayer: fn()
+    }
 };

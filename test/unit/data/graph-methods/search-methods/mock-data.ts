@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */ // keys mirror the snake_case player JSON
 import { Player } from '../../../../../src/types';
 
 const mockPlayer: Player = {

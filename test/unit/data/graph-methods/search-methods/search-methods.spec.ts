@@ -1,4 +1,4 @@
-import { expect } from 'chai';
+import { describe, expect, it } from 'vitest';
 
 import { grabPaths } from '../../../../../src/data/graph-methods/search-methods/search-methods';
 
@@ -18,7 +18,7 @@ describe('Search methods', () => {
             ];
 
             grabPaths(playerId, pathArr).forEach(playerPath => {
-                expect(playerPath.split('.').slice(-1)[0] === playerId).to.be.true;
+                expect(playerPath.split('.').slice(-1)[0] === playerId).toBe(true);
             });
         });
     });

@@ -1,0 +1,227 @@
+/* The body splits like the explorer row above it, 1fr + 384px, so the profile card lines up
+   with the teammate list. */
+.era {
+    display: flex;
+    flex-direction: column;
+}
+
+.era-match {
+    flex: none;
+    height: 32px;
+}
+
+.era-controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 160px auto;
+    align-items: start;
+    gap: 16px 24px;
+    padding: 0 var(--card-pad) 4px;
+}
+
+.era-field {
+    display: grid;
+    gap: 4px;
+}
+
+.era-field-label {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.segmented {
+    display: inline-flex;
+    gap: 2px;
+    padding: 2px;
+    border-radius: var(--radius-control);
+    background: var(--raised);
+}
+
+.segmented button {
+    height: 32px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: var(--radius-chip);
+    background: none;
+    color: var(--muted);
+    font-size: var(--fs-body);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 120ms var(--ease), color 120ms var(--ease);
+}
+
+.segmented button:hover {
+    color: var(--text);
+}
+
+.segmented button.is-selected {
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08); /* taste-skill-ignore: lifts the selected segment */
+}
+
+.era-status {
+    min-height: 18px;
+    padding: 4px var(--card-pad) 12px;
+}
+
+.era-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 384px;
+    align-items: start;
+    gap: var(--gap);
+    padding: 0 var(--card-pad) var(--card-pad);
+    transition: opacity 120ms var(--ease);
+}
+
+.era-body.is-stale {
+    opacity: 0.55;
+}
+
+.era-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(6, auto);
+    grid-auto-flow: column;
+    gap: 2px 12px;
+}
+
+.era-row {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr) auto;
+    grid-template-areas:
+        "rank name score"
+        ". sub sub"
+        ". bar bar";
+    column-gap: 8px;
+    width: 100%;
+    padding: 8px 12px 9px 8px;
+    border: 0;
+    border-radius: var(--radius-control);
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 120ms var(--ease);
+}
+
+.era-row:hover,
+.era-row.is-active {
+    background: var(--raised);
+}
+
+.era-rank {
+    grid-area: rank;
+    color: var(--muted);
+    text-align: right;
+}
+
+.era-name {
+    grid-area: name;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    font-weight: 500;
+}
+
+.era-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.era-row.is-current .era-label {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+.era-score {
+    grid-area: score;
+    text-align: right;
+}
+
+.era-sub {
+    grid-area: sub;
+    color: var(--muted);
+    font-size: var(--fs-small);
+    line-height: 18px;
+}
+
+.era-bar {
+    grid-area: bar;
+    display: block;
+    height: 2px;
+    margin-top: 6px;
+}
+
+.era-bar span {
+    display: block;
+    height: 100%;
+    background: var(--chart-2);
+    transition: background-color 120ms var(--ease);
+}
+
+.era-row.is-active .era-bar span {
+    background: var(--chart-1);
+}
+
+.era-message {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.era-retry {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--text);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+}
+
+@media (max-width: 1100px) {
+    .era-controls {
+        grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .era-controls .slider {
+        grid-column: 1 / -1;
+    }
+
+    .era-body {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    /* without hover, a tapped row's details should land where the eye already is */
+    .era-profile {
+        order: -1;
+    }
+}
+
+@media (max-width: 640px) {
+    .era-controls {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .era-list {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: none;
+        grid-auto-flow: row;
+    }
+
+    .era-match {
+        align-self: flex-start;
+    }
+
+    .segmented {
+        display: flex;
+    }
+
+    .segmented button {
+        flex: 1;
+        height: 40px;
+    }
+}

@@ -1,0 +1,100 @@
+.profile-card {
+    display: grid;
+    gap: 16px;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-card);
+    background: var(--surface);
+}
+
+.profile-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+.profile-photo {
+    width: 56px;
+    height: 56px;
+    font-size: var(--fs-section);
+}
+
+.profile-identity {
+    min-width: 0;
+}
+
+.profile-card h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    font-size: var(--fs-section);
+    line-height: 24px;
+    font-weight: 500;
+}
+
+.profile-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.profile-sub {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 18px;
+}
+
+.profile-figures {
+    display: grid;
+    gap: 14px;
+}
+
+.profile-figure {
+    display: grid;
+    gap: 2px;
+    padding-top: 12px;
+    border-top: 1px solid var(--rule);
+}
+
+.profile-figure dt {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* set apart by size alone: fading the muted ink any further drops it below 4.5:1 contrast */
+.profile-term {
+    margin-left: 4px;
+    font-size: var(--fs-small);
+}
+
+.profile-reading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.profile-value {
+    font-size: var(--fs-figure);
+    line-height: 32px;
+}
+
+.profile-rank {
+    color: var(--muted);
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.profile-note {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 18px;
+}
+
+.profile-open {
+    justify-content: center;
+    width: 100%;
+}

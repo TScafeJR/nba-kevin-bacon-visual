@@ -1,31 +1,28 @@
-import React, { ComponentProps } from 'react';
-import { Meta, Story } from '@storybook/react/types-6-0';
+import React from 'react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { fn } from 'storybook/test';
 import NetworkGraph from '../components/NetworkGraph';
+import { buildPlayerNetwork } from '../data/graph-methods/player-network-methods';
 
-export default {
+const meta = {
     title: 'Components/NetworkGraph',
-    component: NetworkGraph
-} as Meta;
-
-const Template: Story<ComponentProps<typeof NetworkGraph>> = args => <NetworkGraph {...args}/>;
-
-export const Primary = Template.bind({});
-
-Primary.args = {
-    startingEdges: [
-        { to: 'first', from: 'second' },
-        { to: 'first', from: 'third' },
-        { to: 'first', from: 'fourth' },
-        { to: 'third', from: 'second' }
-    ],
-    startingNodes: [
-        { id: 'first', label: 'First Node' },
-        { id: 'second', label: 'Second Node' },
-        { id: 'third', label: 'Third Node' },
-        { id: 'fourth', label: 'Fourth Node' }
-    ],
-    displayPlayer: 'tscafe',
-    playerData: [
-        { name: 'Tyrone Scafe' }
+    component: NetworkGraph,
+    decorators: [
+        Story => (
+            <div style={{ height: 640, display: 'grid' }}>
+                <Story />
+            </div>
+        )
     ]
+} satisfies Meta<typeof NetworkGraph>;
+
+export default meta;
+
+export const Primary: StoryObj<typeof meta> = {
+    args: {
+        network: buildPlayerNetwork('malonka01'),
+        hoveredId: null,
+        onSelectPlayer: fn(),
+        onHoverPlayer: fn()
+    }
 };

@@ -1,0 +1,111 @@
+.teammates {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.teammates-filter {
+    padding: 0 var(--card-pad) 8px;
+}
+
+.teammates-head {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px var(--card-pad);
+    color: var(--muted);
+    font-size: var(--fs-small);
+    border-bottom: 1px solid var(--border);
+}
+
+.teammates-list {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 4px 8px 8px;
+}
+
+.teammate {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+        "name seasons"
+        "sub sub"
+        "bar bar";
+    column-gap: 12px;
+    width: 100%;
+    padding: 9px 12px 10px;
+    border: 0;
+    border-radius: var(--radius-control);
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 120ms var(--ease);
+}
+
+.teammate:hover,
+.teammate.is-hovered {
+    background: var(--raised);
+}
+
+.teammate-name {
+    grid-area: name;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    font-weight: 500;
+}
+
+.teammate-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.teammate-seasons {
+    grid-area: seasons;
+    text-align: right;
+}
+
+.teammate-sub {
+    grid-area: sub;
+    margin-top: 1px;
+    color: var(--muted);
+    font-size: var(--fs-small);
+    line-height: 18px;
+}
+
+.teammate-bar {
+    grid-area: bar;
+    display: block;
+    height: 2px;
+    margin-top: 6px;
+}
+
+.teammate-bar span {
+    display: block;
+    height: 100%;
+    background: var(--chart-2);
+}
+
+.teammate-bar span.is-long {
+    background: var(--chart-3);
+}
+
+.teammates .empty-state {
+    margin: 8px 4px;
+}
+
+@media (max-width: 1100px) {
+    .teammates-list {
+        flex: none;
+        max-height: 480px;
+    }
+}
+
+@media (max-width: 640px) {
+    .teammates-filter .field {
+        height: 44px;
+        font-size: 16px;
+    }
+}

@@ -1,0 +1,245 @@
+.summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 32px;
+}
+
+.summary-identity {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: var(--card-pad) var(--card-pad) 16px;
+}
+
+.summary-details {
+    min-width: 0;
+}
+
+.summary-photo {
+    width: 112px;
+    height: 112px;
+    font-size: var(--fs-figure);
+}
+
+.summary-career {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 20px;
+    margin-top: 10px;
+}
+
+.summary-career div {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.summary-career dt {
+    order: 1;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.summary-career dd {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.summary-credit {
+    margin-top: 8px;
+    overflow: hidden;
+    color: var(--muted);
+    font-size: var(--fs-small);
+    line-height: 16px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.summary-credit a {
+    color: inherit;
+}
+
+.summary-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.summary h1 {
+    font-size: var(--fs-title);
+    line-height: 32px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.summary-meta {
+    margin-top: 4px;
+    color: var(--muted);
+}
+
+.summary-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    margin-left: 12px;
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.summary-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.summary-finding {
+    margin-top: 10px;
+    font-size: 15px;
+    line-height: 22px;
+}
+
+.summary-figures {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    align-self: center;
+    margin-right: var(--card-pad);
+}
+
+.figure {
+    padding: 4px 24px;
+    border-left: 1px solid var(--border);
+}
+
+.figure:first-child {
+    border-left: 0;
+}
+
+.figure dt {
+    color: var(--muted);
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.figure dd {
+    margin-top: 2px;
+    font-size: var(--fs-figure);
+    line-height: 32px;
+    font-weight: 400;
+}
+
+.figure.is-lead dd {
+    font-size: var(--fs-kpi);
+    font-weight: 500;
+}
+
+.trail {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 16px;
+    padding: 10px var(--card-pad);
+    border-top: 1px solid var(--rule);
+}
+
+.trail ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px;
+}
+
+.trail li {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.trail-sep {
+    color: var(--muted);
+}
+
+.trail-stop {
+    height: 28px;
+    padding: 0 8px;
+    border: 0;
+    border-radius: var(--radius-control);
+    background: none;
+    font-size: var(--fs-body);
+    line-height: 28px;
+    cursor: pointer;
+    transition: background-color 120ms var(--ease);
+}
+
+button.trail-stop {
+    color: var(--muted);
+}
+
+button.trail-stop:hover {
+    background: var(--raised);
+    color: var(--text);
+}
+
+.trail-stop.is-current {
+    background: var(--raised);
+    font-weight: 500;
+    cursor: default;
+}
+
+.trail-count {
+    color: var(--muted);
+}
+
+@media (max-width: 1100px) {
+    .summary {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .summary-figures {
+        margin: 0 var(--card-pad) 16px;
+        justify-self: start;
+    }
+
+    .figure:first-child {
+        padding-left: 0;
+    }
+}
+
+@media (max-width: 640px) {
+    .summary-identity {
+        gap: 14px;
+    }
+
+    .summary-photo {
+        width: 72px;
+        height: 72px;
+    }
+
+    .summary-figures {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        justify-self: stretch;
+        row-gap: 12px;
+    }
+
+    .figure {
+        padding: 0 0 0 16px;
+    }
+
+    .figure:nth-child(odd) {
+        border-left: 0;
+        padding-left: 0;
+    }
+
+    .summary-link {
+        display: flex;
+        width: max-content;
+        margin: 6px 0 0;
+        min-height: 28px;
+    }
+
+    .trail-stop {
+        height: 36px;
+        line-height: 36px;
+    }
+}
